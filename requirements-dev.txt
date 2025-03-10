@@ -1,0 +1,2 @@
+# gcloud
+gcloud == 0.18.3

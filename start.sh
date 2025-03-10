@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# VPC 먼저 배포
+# 순서는 main.tf에서 보장
 cd ./terraform
 terraform init
 terraform apply
-cd ../..
