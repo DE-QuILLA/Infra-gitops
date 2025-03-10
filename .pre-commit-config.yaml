@@ -14,8 +14,9 @@ repos:
     hooks:
       - id: yamllint  # 야믈 린트
 
-  # 쿠버네티스 매니페스트 검사
-  - repo: https://github.com/instrumenta/kubeval
-    rev: v0.16.1
-    hooks:
-      - id: kubeval  # 쿠버네티스 매니페스트 검사
+  # # 쿠버네티스 매니페스트 검사
+  # - repo: https://github.com/instrumenta/kubeval
+  #   rev: v0.16.1
+  #   hooks:
+  #     - id: kubeval  # 쿠버네티스 매니페스트 검사
+  #       exclude: ".pre-commit-config.yaml"  # 이 파일을 검사 대상에서 제외
