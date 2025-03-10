@@ -1,0 +1,7 @@
+controller:
+  publishService:
+    enabled: true
+  service:
+    type: LoadBalancer
+  ingressClassResource:
+    default: true
