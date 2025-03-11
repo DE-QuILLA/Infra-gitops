@@ -20,3 +20,12 @@ repos:
   #   hooks:
   #     - id: kubeval  # 쿠버네티스 매니페스트 검사
   #       exclude: ".pre-commit-config.yaml"  # 이 파일을 검사 대상에서 제외
+
+  # 로컬 훅: 커밋 메시지에 Jira 티켓 넘버 자동 추가 스크립트
+  - repo: local
+    hooks:
+      - id: add-ticket-number
+        name: Add Jira ticket number to commit message
+        entry: ./ci_scripts/add_ticket_number.sh
+        language: system
+        stages: [commit-msg]

@@ -67,4 +67,4 @@ kubectl version --client
 ./destroy.sh
 ```
 
-
+sdf
