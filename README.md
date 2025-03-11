@@ -69,3 +69,6 @@ kubectl version --client
 
 sdf
 sdfsdfsdf
+
+adsfsdfdsfsdf
+sdfasf
