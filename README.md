@@ -1,13 +1,15 @@
 # Infra-gitops
 
-- 팀프로젝트의 인프라, 깃 옵스 관련 코드들 모음
+- 팀프로젝트의 인프라, 깃 옵스 관련 코드들 모은 레포
 
+
+---
 
 ### 1. 인프라 설정하기
 
-##### 1 - 1. 필요 목록
+##### 1 - 1. 필요 종속성 설치하기
 
-- terraform: 1.11.1
+- terraform: 1.11.1 (ubuntu 기준 설치방법)
 
 ```sh
 # HashiCorp GPG 키 추가
@@ -22,6 +24,18 @@ sudo apt-get update && sudo apt-get install terraform -y
 
 # 버전 확인
 terraform -version
+```
+
+- 진행할 우분투 OS 버전정보
+
+```sh
+lsb_release -a  # 명령어, 이 아래부터 출력
+#########################################
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.5 LTS
+Release:        22.04
+Codename:       jammy
 ```
 
 - gcloud: 0.18.3
@@ -50,6 +64,10 @@ sudo apt install -y kubectl
 
 # 버전 확인
 kubectl version --client
+
+# kubectl version --client (명령어)
+# Client Version: v1.32.3
+# Kustomize Version: v5.5.0
 ```
 
 
@@ -66,9 +84,3 @@ kubectl version --client
 ```sh
 ./destroy.sh
 ```
-
-sdf
-sdfsdfsdf
-
-adsfsdfdsfsdf
-sdfasf
