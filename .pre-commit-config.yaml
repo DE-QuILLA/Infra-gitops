@@ -1,5 +1,21 @@
 ---
 repos:
+  # 윈도우라면 아래 주석을 제거해주세요
+  # - repo: local
+  #   hooks:
+  #     - id: convert-secrets-to-utf8-nobom
+  #       name: Convert .secrets.baseline to UTF-8 without BOM
+  #       entry: powershell.exe -File ./ci_scripts/convert_to_utf8_nobom.ps1
+  #       language: system
+  #       pass_filenames: false
+  #       always_run: true
+
+  # 기본적인 코드 클린업을 위한 훅 - 파일 끝 정리
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+
   # Terraform 코드 포맷팅
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.77.0
@@ -15,12 +31,15 @@ repos:
     hooks:
       - id: yamllint  # 야믈 린트
 
-  # 쿠버네티스 매니페스트 검사
-  # - repo: https://github.com/instrumenta/kubeval
-  #   rev: v0.16.1
-  #   hooks:
-  #     - id: kubeval  # 쿠버네티스 매니페스트 검사
-  #       exclude: "./.pre-commit-config.yaml"  # 이 파일을 검사 대상에서 제외
+  # 민감한 정보(Secret) 감지: 실수로 키, 패스워드 푸시 방지
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: Detect secrets
+        language: python
+        entry: detect-secrets-hook
+        args: ['--baseline', '.secrets.baseline']
 
   # 로컬 훅: 커밋 메시지에 Jira 티켓 넘버 자동 추가 스크립트
   - repo: local
