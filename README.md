@@ -42,6 +42,7 @@ Codename:       jammy
 
 ```sh
 pip install -r requirements-dev.txt
+pre-commit install  # 프리커밋
 ```
 
 - kubectl 설치
