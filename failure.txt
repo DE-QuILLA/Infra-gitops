@@ -1,0 +1,1478 @@
+[WARNING] Unstaged files detected.
+[INFO] Stashing unstaged files to C:\Users\gjstj\.cache\pre-commit\patch1744456927-21816.
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+
+Fixing deploy/airflow/values.yaml
+
+Terraform fmt............................................................Failed
+- hook id: terraform_fmt
+- exit code: 127
+
+C:\Users\gjstj\.cache\pre-commit\reponi4on4lm\hooks\terraform_fmt.sh: line 42: terraform: command not found
+
+Terraform validate.......................................................Failed
+- hook id: terraform_validate
+- exit code: 127
+
+[0m[31m'terraform init' failed, 'terraform validate' skipped: terraform[0m
+/c/Users/gjstj/.cache/pre-commit/reponi4on4lm/hooks/_common.sh: line 303: terraform: command not found
+
+Terraform validate with tflint...........................................Failed
+- hook id: terraform_tflint
+- exit code: 127
+
+[0m[31mCommand 'tflint --init' failed:[0m
+C:\Users\gjstj\.cache\pre-commit\reponi4on4lm\hooks\terraform_tflint.sh: line 25: tflint: command not found
+
+Terraform validate with tfsec............................................Failed
+- hook id: terraform_tfsec
+- exit code: 1
+
+[0m[3mResult #1[0m [0m[31mHIGH[39m[0m [1mCluster has legacy metadata endpoints enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-metadata-endpoints-disabled
+[0m[0m  [2m    Impact[0m Legacy metadata endpoints don't require metadata headers
+[0m[0m  [2mResolution[0m Disable legacy metadata endpoints
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/metadata-endpoints-disabled/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#metadata[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResults #2-3[0m [0m[31mHIGH[39m[0m [1mCluster exposes node metadata of pools by default.[0m [2m(2 similar results)[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2mIndividual Causes
+[0m[0m  [2m- [0m[3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[3m[2m:96-112 (google_container_node_pool.primary_nodes)[0m
+[0m[0m  [2m- [0m[3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112 (google_container_node_pool.primary_nodes)[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-node-metadata-security
+[0m[0m  [2m    Impact[0m Metadata that isn't concealed potentially risks leakage of sensitive data
+[0m[0m  [2mResolution[0m Set node metadata to SECURE or GKE_METADATA_SERVER
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/node-metadata-security/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#node_metadata[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #4[0m [0m[31mHIGH[39m[0m [1mDatabase instance does not require TLS for all connections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:35-37
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   26  [0m[0m  [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m   35  [0m[0m[31m┌[39m[0m[0m     ip_configuration {[0m
+[0m[31m   36  [0m[0m[31m│[39m[0m[0m       [38;5;245mipv4_enabled[0m    = [38;5;166mtrue[0m
+[0m[31m   37  [0m[0m[31m└[39m[0m[0m [0m    }[0m
+[0m[90m   ..  [0m
+[0m[90m   39  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-encrypt-in-transit-data
+[0m[0m  [2m    Impact[0m Intercepted data can be read in transit
+[0m[0m  [2mResolution[0m Enforce SSL for all connections
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/encrypt-in-transit-data/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #5[0m [0m[31mHIGH[39m[0m [1mDatabase instance is granted a public internet address.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:36
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   26  [0m[0m  [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m   36  [0m[0m[31m[[39m[0m[0m       [38;5;245mipv4_enabled[0m    = [38;5;166mtrue[0m[0m [3m[2m[3m(true)[0m
+[0m[90m   ..  [0m
+[0m[90m   39  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-no-public-access
+[0m[0m  [2m    Impact[0m Public exposure of sensitive data
+[0m[0m  [2mResolution[0m Remove public access from database instances
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/no-public-access/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #6[0m [0m[31mHIGH[39m[0m [1mCluster pod security policy is not enforced.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enforce-pod-security-policy
+[0m[0m  [2m    Impact[0m Pods could be operating with more permissions than required to be effective
+[0m[0m  [2mResolution[0m Use security policies for pods to restrict permissions to those needed to be effective
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enforce-pod-security-policy/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#pod_security_policy_config[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #7[0m [0m[31mHIGH[39m[0m [1mCluster does not have master authorized networks enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[3m[2m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-master-networks
+[0m[0m  [2m    Impact[0m Unrestricted network access to the master
+[0m[0m  [2mResolution[0m Enable master authorized networks
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-master-networks/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #8[0m [0m[33mMEDIUM[39m[0m [1mNode pool does not override the default service account.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-use-service-account
+[0m[0m  [2m    Impact[0m Service accounts with wide permissions can increase the risk of compromise
+[0m[0m  [2mResolution[0m Use limited permissions for service accounts to be effective
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/use-service-account/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#service_account[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #9[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance has temporary file logging disabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-enable-pg-temp-file-logging
+[0m[0m  [2m    Impact[0m Use of temporary files will not be logged
+[0m[0m  [2mResolution[0m Enable temporary file logging for all files
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/enable-pg-temp-file-logging/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #10[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log connections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[3m[2m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-connections
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable connection logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-connections/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #11[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log lock waits.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-lock-waits
+[0m[0m  [2m    Impact[0m Issues leading to denial of service may not be identified.
+[0m[0m  [2mResolution[0m Enable lock wait logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-lock-waits/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #12[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log disconnections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-disconnections
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable disconnection logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-disconnections/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #13[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance does not have backups enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-enable-backup
+[0m[0m  [2m    Impact[0m No recovery of lost or corrupted data
+[0m[0m  [2mResolution[0m Enable automated backups
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/enable-backup/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance#settings.backup_configuration.enabled=true[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #14[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log checkpoints.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-checkpoints
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable checkpoints logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-checkpoints/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #15[0m [0m[33mMEDIUM[39m[0m [1mCluster does not have a network policy enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-network-policy
+[0m[0m  [2m    Impact[0m Unrestricted inter-cluster communication
+[0m[0m  [2mResolution[0m Enable network policy
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-network-policy/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#enabled[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #16[0m [0m[33mMEDIUM[39m[0m [1mCluster does not have private nodes.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-private-cluster
+[0m[0m  [2m    Impact[0m Nodes may be exposed to the public internet
+[0m[0m  [2mResolution[0m Enable private cluster
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-private-cluster/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#enable_private_nodes[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #17[0m [0m[97mLOW[39m[0m [1mNode pool is not using the COS containerd image type.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[3m[2m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-node-pool-uses-cos
+[0m[0m  [2m    Impact[0m COS is the recommended OS image to use on cluster nodes
+[0m[0m  [2mResolution[0m Use the COS image type
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/node-pool-uses-cos/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#image_type[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #18[0m [0m[97mLOW[39m[0m [1mCluster does not use GCE resource labels.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-use-cluster-labels
+[0m[0m  [2m    Impact[0m Asset management can be limited/more difficult
+[0m[0m  [2mResolution[0m Set cluster resource labels
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/use-cluster-labels/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#resource_labels[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #19[0m [0m[97mLOW[39m[0m [1mNode pool does not have auto-upgraade enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   96  [0m[0m[31m┌[39m[0m[0m [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[31m   97  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m       = [38;5;37m"node-pool"[0m
+[0m[31m   98  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mlocation[0m   = [38;5;33mvar[0m.region[0m
+[0m[31m   99  [0m[0m[31m│[39m[0m[0m   [38;5;245mcluster[0m    = google_container_cluster.primary.name[0m
+[0m[31m  100  [0m[0m[31m│[39m[0m[0m   [38;5;245mnode_count[0m = [38;5;33mvar[0m.desired_size[0m
+[0m[31m  101  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m  102  [0m[0m[31m│[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m└[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[90m  ...  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-auto-upgrade
+[0m[0m  [2m    Impact[0m Nodes will need the cluster master version manually updating
+[0m[0m  [2mResolution[0m Enable automatic upgrades
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-auto-upgrade/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#auto_upgrade[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #20[0m [0m[97mLOW[39m[0m [1mNode pool does not have auto-repair enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   96  [0m[0m[31m┌[39m[0m[0m [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[31m   97  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m       = [38;5;37m"node-pool"[0m
+[0m[31m   98  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mlocation[0m   = [38;5;33mvar[0m.region[0m
+[0m[31m   99  [0m[0m[31m│[39m[0m[0m   [38;5;245mcluster[0m    = google_container_cluster.primary.name[0m
+[0m[31m  100  [0m[0m[31m│[39m[0m[0m   [38;5;245mnode_count[0m = [38;5;33mvar[0m.desired_size[0m
+[0m[31m  101  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m  102  [0m[0m[31m│[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m└[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[90m  ...  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-auto-repair
+[0m[0m  [2m    Impact[0m Failing nodes will require manual repair.
+[0m[0m  [2mResolution[0m Enable automatic repair
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-auto-repair/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#auto_repair[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 999.1µs
+[0m[0m  [2mparsing             [0m 2.0506ms
+[0m[0m  [2madaptation          [0m 980.6µs
+[0m[0m  [2mchecks              [0m 13.1644ms
+[0m[0m  [2mtotal               [0m 17.1947ms
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 1
+[0m[0m  [2mblocks processed    [0m 30
+[0m[0m  [2mfiles read          [0m 2
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 15
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 7
+[0m[0m  [2mmedium              [0m 9
+[0m[0m  [2mlow                 [0m 4
+[0m
+[0m  [31m[1m15 passed, 20 potential problem(s) detected.
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 0s
+[0m[0m  [2madaptation          [0m 0s
+[0m[0m  [2mchecks              [0m 0s
+[0m[0m  [2mtotal               [0m 0s
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 0
+[0m[0m  [2mblocks processed    [0m 0
+[0m[0m  [2mfiles read          [0m 0
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 0
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 0
+[0m[0m  [2mmedium              [0m 0
+[0m[0m  [2mlow                 [0m 0
+[0m
+[0m
+[32m[1mNo problems detected!
+
+[0mWARNING: A tfvars file was found but not automatically used. Did you mean to specify the --tfvars-file flag?
+
+[0m[3mResult #1[0m [0m[31mHIGH[39m[0m [1mCluster has legacy metadata endpoints enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-metadata-endpoints-disabled
+[0m[0m  [2m    Impact[0m Legacy metadata endpoints don't require metadata headers
+[0m[0m  [2mResolution[0m Disable legacy metadata endpoints
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/metadata-endpoints-disabled/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#metadata[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResults #2-3[0m [0m[31mHIGH[39m[0m [1mCluster exposes node metadata of pools by default.[0m [2m(2 similar results)[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2mIndividual Causes
+[0m[0m  [2m- [0m[3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112 (google_container_node_pool.primary_nodes)[0m [2m[3m2 instances
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-node-metadata-security
+[0m[0m  [2m    Impact[0m Metadata that isn't concealed potentially risks leakage of sensitive data
+[0m[0m  [2mResolution[0m Set node metadata to SECURE or GKE_METADATA_SERVER
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/node-metadata-security/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#node_metadata[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #4[0m [0m[31mHIGH[39m[0m [1mDatabase instance does not require TLS for all connections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:35-37
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   26  [0m[0m  [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m   35  [0m[0m[31m┌[39m[0m[0m     ip_configuration {[0m
+[0m[31m   36  [0m[0m[31m│[39m[0m[0m       [38;5;245mipv4_enabled[0m    = [38;5;166mtrue[0m
+[0m[31m   37  [0m[0m[31m└[39m[0m[0m [0m    }[0m
+[0m[90m   ..  [0m
+[0m[90m   39  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-encrypt-in-transit-data
+[0m[0m  [2m    Impact[0m Intercepted data can be read in transit
+[0m[0m  [2mResolution[0m Enforce SSL for all connections
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/encrypt-in-transit-data/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #5[0m [0m[31mHIGH[39m[0m [1mDatabase instance is granted a public internet address.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:36
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   26  [0m[0m  [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m   36  [0m[0m[31m[[39m[0m[0m       [38;5;245mipv4_enabled[0m    = [38;5;166mtrue[0m[0m [3m[2m[3m(true)[0m
+[0m[90m   ..  [0m
+[0m[90m   39  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-no-public-access
+[0m[0m  [2m    Impact[0m Public exposure of sensitive data
+[0m[0m  [2mResolution[0m Remove public access from database instances
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/no-public-access/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #6[0m [0m[31mHIGH[39m[0m [1mCluster pod security policy is not enforced.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enforce-pod-security-policy
+[0m[0m  [2m    Impact[0m Pods could be operating with more permissions than required to be effective
+[0m[0m  [2mResolution[0m Use security policies for pods to restrict permissions to those needed to be effective
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enforce-pod-security-policy/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#pod_security_policy_config[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #7[0m [0m[31mHIGH[39m[0m [1mCluster does not have master authorized networks enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-master-networks
+[0m[0m  [2m    Impact[0m Unrestricted network access to the master
+[0m[0m  [2mResolution[0m Enable master authorized networks
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-master-networks/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #8[0m [0m[33mMEDIUM[39m[0m [1mNode pool does not override the default service account.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-use-service-account
+[0m[0m  [2m    Impact[0m Service accounts with wide permissions can increase the risk of compromise
+[0m[0m  [2mResolution[0m Use limited permissions for service accounts to be effective
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/use-service-account/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#service_account[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #9[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance has temporary file logging disabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-enable-pg-temp-file-logging
+[0m[0m  [2m    Impact[0m Use of temporary files will not be logged
+[0m[0m  [2mResolution[0m Enable temporary file logging for all files
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/enable-pg-temp-file-logging/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #10[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log connections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-connections
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable connection logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-connections/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #11[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log lock waits.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-lock-waits
+[0m[0m  [2m    Impact[0m Issues leading to denial of service may not be identified.
+[0m[0m  [2mResolution[0m Enable lock wait logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-lock-waits/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #12[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log disconnections.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-disconnections
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable disconnection logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-disconnections/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #13[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance does not have backups enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-enable-backup
+[0m[0m  [2m    Impact[0m No recovery of lost or corrupted data
+[0m[0m  [2mResolution[0m Enable automated backups
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/enable-backup/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance#settings.backup_configuration.enabled=true[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #14[0m [0m[33mMEDIUM[39m[0m [1mDatabase instance is not configured to log checkpoints.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:26-39
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   26  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_sql_database_instance"[0m [38;5;37m"airflow"[0m {[0m
+[0m[31m   27  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m             = [38;5;37m"airflow-sql"[0m
+[0m[31m   28  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mdatabase_version[0m = [38;5;37m"POSTGRES_14"[0m
+[0m[31m   29  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mregion[0m           = [38;5;33mvar[0m.region[0m
+[0m[31m   30  [0m[0m[31m│[39m[0m[0m   [38;5;245mdeletion_protection[0m = [38;5;166mfalse[0m
+[0m[31m   31  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   32  [0m[0m[31m│[39m[0m[0m   settings {[0m
+[0m[31m   33  [0m[0m[31m│[39m[0m[0m     [38;5;245mtier[0m = [38;5;37m"db-custom-2-8192"[0m
+[0m[31m   34  [0m[0m[31m└[39m[0m[0m [0m[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-sql-pg-log-checkpoints
+[0m[0m  [2m    Impact[0m Insufficient diagnostic data.
+[0m[0m  [2mResolution[0m Enable checkpoints logging.
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/sql/pg-log-checkpoints/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #15[0m [0m[33mMEDIUM[39m[0m [1mCluster does not have a network policy enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[3m[2m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-network-policy
+[0m[0m  [2m    Impact[0m Unrestricted inter-cluster communication
+[0m[0m  [2mResolution[0m Enable network policy
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-network-policy/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#enabled[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #16[0m [0m[33mMEDIUM[39m[0m [1mCluster does not have private nodes.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-private-cluster
+[0m[0m  [2m    Impact[0m Nodes may be exposed to the public internet
+[0m[0m  [2mResolution[0m Enable private cluster
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-private-cluster/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#enable_private_nodes[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #17[0m [0m[97mLOW[39m[0m [1mNode pool is not using the COS containerd image type.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:102-106
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[90m   96  [0m[0m  [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[90m   ..  [0m
+[0m[31m  102  [0m[0m[31m┌[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m│[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[31m  105  [0m[0m[31m│[39m[0m[0m [0m    [38;5;245moauth_scopes[0m = [[38;5;37m"https://www.googleapis.com/auth/cloud-platform"[0m][0m
+[0m[31m  106  [0m[0m[31m└[39m[0m[0m   }[0m
+[0m[90m  ...  [0m
+[0m[90m  112  [0m[0m  }[0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-node-pool-uses-cos
+[0m[0m  [2m    Impact[0m COS is the recommended OS image to use on cluster nodes
+[0m[0m  [2mResolution[0m Use the COS image type
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/node-pool-uses-cos/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#image_type[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #18[0m [0m[97mLOW[39m[0m [1mCluster does not use GCE resource labels.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:82-94
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   82  [0m[0m[31m┌[39m[0m[0m [0m[38;5;33mresource[0m [38;5;37m"google_container_cluster"[0m [38;5;37m"primary"[0m {[0m
+[0m[31m   83  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m     = [38;5;33mvar[0m.cluster_name[0m
+[0m[31m   84  [0m[0m[31m│[39m[0m[0m   [38;5;245mlocation[0m = [38;5;33mvar[0m.region[0m
+[0m[31m   85  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m   86  [0m[0m[31m│[39m[0m[0m   [38;5;245mremove_default_node_pool[0m = [38;5;166mtrue[0m
+[0m[31m   87  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245minitial_node_count[0m       = [38;5;37m1[0m
+[0m[31m   88  [0m[0m[31m│[39m[0m[0m [0m[0m
+[0m[31m   89  [0m[0m[31m│[39m[0m[0m   [38;5;245mnetwork[0m    = [38;5;37m"default"[0m
+[0m[31m   90  [0m[0m[31m└[39m[0m[0m [0m  [38;5;245msubnetwork[0m = [38;5;37m"default"[0m
+[0m[90m   ..  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-use-cluster-labels
+[0m[0m  [2m    Impact[0m Asset management can be limited/more difficult
+[0m[0m  [2mResolution[0m Set cluster resource labels
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/use-cluster-labels/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#resource_labels[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #19[0m [0m[97mLOW[39m[0m [1mNode pool does not have auto-upgraade enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   96  [0m[0m[31m┌[39m[0m[0m [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[31m   97  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m       = [38;5;37m"node-pool"[0m
+[0m[31m   98  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mlocation[0m   = [38;5;33mvar[0m.region[0m
+[0m[31m   99  [0m[0m[31m│[39m[0m[0m   [38;5;245mcluster[0m    = google_container_cluster.primary.name[0m
+[0m[31m  100  [0m[0m[31m│[39m[0m[0m   [38;5;245mnode_count[0m = [38;5;33mvar[0m.desired_size[0m
+[0m[31m  101  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m  102  [0m[0m[31m│[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m└[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[90m  ...  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-auto-upgrade
+[0m[0m  [2m    Impact[0m Nodes will need the cluster master version manually updating
+[0m[0m  [2mResolution[0m Enable automatic upgrades
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-auto-upgrade/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#auto_upgrade[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m[3mResult #20[0m [0m[97mLOW[39m[0m [1mNode pool does not have auto-repair enabled.[0m [2m[0m
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────
+[0m[0m  [3mC:\Users\gjstj\Desktop\DE-QUILLA\DE_QUILLA_REPO\Infra-gitops\terraform\main.tf[2m[3m:96-112
+[0m[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m[31m   96  [0m[0m[31m┌[39m[0m[0m [38;5;33mresource[0m [38;5;37m"google_container_node_pool"[0m [38;5;37m"primary_nodes"[0m {[0m
+[0m[31m   97  [0m[0m[31m│[39m[0m[0m   [38;5;245mname[0m       = [38;5;37m"node-pool"[0m
+[0m[31m   98  [0m[0m[31m│[39m[0m[0m [0m  [38;5;245mlocation[0m   = [38;5;33mvar[0m.region[0m
+[0m[31m   99  [0m[0m[31m│[39m[0m[0m   [38;5;245mcluster[0m    = google_container_cluster.primary.name[0m
+[0m[31m  100  [0m[0m[31m│[39m[0m[0m   [38;5;245mnode_count[0m = [38;5;33mvar[0m.desired_size[0m
+[0m[31m  101  [0m[0m[31m│[39m[0m[0m [0m
+[0m[31m  102  [0m[0m[31m│[39m[0m[0m   node_config {[0m
+[0m[31m  103  [0m[0m[31m│[39m[0m[0m     [38;5;245mmachine_type[0m = [38;5;33mvar[0m.machine_type[0m
+[0m[31m  104  [0m[0m[31m└[39m[0m[0m     [38;5;245mdisk_size_gb[0m = [38;5;37m30[0m
+[0m[90m  ...  [0m
+[0m[90m────────────────────────────────────────────────────────────────────────────────[39m
+[0m[0m  [2m        ID[0m[3m google-gke-enable-auto-repair
+[0m[0m  [2m    Impact[0m Failing nodes will require manual repair.
+[0m[0m  [2mResolution[0m Enable automatic repair
+[0m[0m
+  [2mMore Information[0m[0m[0m
+  [2m-[0m [34mhttps://aquasecurity.github.io/tfsec/v1.28.1/checks/google/gke/enable-auto-repair/[0m[0m
+  [2m-[0m [34mhttps://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool#auto_repair[0m[0m
+[90m────────────────────────────────────────────────────────────────────────────────[39m
+
+
+[0m[0m  [1mtimings[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mdisk i/o            [0m 0s
+[0m[0m  [2mparsing             [0m 3.0218ms
+[0m[0m  [2madaptation          [0m 1.0018ms
+[0m[0m  [2mchecks              [0m 21.8407ms
+[0m[0m  [2mtotal               [0m 25.8643ms
+[0m
+[0m  [1mcounts[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mmodules downloaded  [0m 0
+[0m[0m  [2mmodules processed   [0m 1
+[0m[0m  [2mblocks processed    [0m 30
+[0m[0m  [2mfiles read          [0m 2
+[0m
+[0m  [1mresults[0m
+  ──────────────────────────────────────────
+[0m[0m  [2mpassed              [0m 15
+[0m[0m  [2mignored             [0m 0
+[0m[0m  [2mcritical            [0m 0
+[0m[0m  [2mhigh                [0m 7
+[0m[0m  [2mmedium              [0m 9
+[0m[0m  [2mlow                 [0m 4
+[0m
+[0m  [31m[1m15 passed, 20 potential problem(s) detected.
+
+[0m
+
+yamllint.................................................................Failed
+- hook id: yamllint
+- exit code: 1
+
+deploy/airflow/proxy-deployment.yaml
+  4:1       warning  missing document start "---"  (document-start)
+
+deploy/elk/elastic-values.yaml
+  1:1       warning  missing document start "---"  (document-start)
+
+rbac/airflow/airflow-cluster-role.yaml
+  1:1       warning  missing document start "---"  (document-start)
+  7:81      error    line too long (103 > 80 characters)  (line-length)
+
+deploy/airflow/values.yaml
+  1:61      error    wrong new line character: expected \n  (new-lines)
+  30:81     error    line too long (84 > 80 characters)  (line-length)
+  31:81     error    line too long (105 > 80 characters)  (line-length)
+  33:81     error    line too long (99 > 80 characters)  (line-length)
+  34:81     error    line too long (108 > 80 characters)  (line-length)
+  35:81     error    line too long (108 > 80 characters)  (line-length)
+  38:81     error    line too long (81 > 80 characters)  (line-length)
+  39:81     error    line too long (94 > 80 characters)  (line-length)
+  42:81     error    line too long (102 > 80 characters)  (line-length)
+  49:81     error    line too long (83 > 80 characters)  (line-length)
+  76:81     error    line too long (87 > 80 characters)  (line-length)
+  88:81     error    line too long (86 > 80 characters)  (line-length)
+  95:81     error    line too long (89 > 80 characters)  (line-length)
+  96:81     error    line too long (94 > 80 characters)  (line-length)
+  97:81     error    line too long (98 > 80 characters)  (line-length)
+  141:81    error    line too long (98 > 80 characters)  (line-length)
+  155:81    error    line too long (81 > 80 characters)  (line-length)
+  158:81    error    line too long (84 > 80 characters)  (line-length)
+  169:81    error    line too long (89 > 80 characters)  (line-length)
+  172:81    error    line too long (87 > 80 characters)  (line-length)
+  175:81    error    line too long (86 > 80 characters)  (line-length)
+  179:81    error    line too long (85 > 80 characters)  (line-length)
+  199:81    error    line too long (81 > 80 characters)  (line-length)
+  202:81    error    line too long (90 > 80 characters)  (line-length)
+  212:81    error    line too long (89 > 80 characters)  (line-length)
+  215:81    error    line too long (90 > 80 characters)  (line-length)
+  218:81    error    line too long (92 > 80 characters)  (line-length)
+  222:81    error    line too long (85 > 80 characters)  (line-length)
+  236:81    error    line too long (81 > 80 characters)  (line-length)
+  239:81    error    line too long (90 > 80 characters)  (line-length)
+  249:81    error    line too long (89 > 80 characters)  (line-length)
+  252:81    error    line too long (90 > 80 characters)  (line-length)
+  266:81    error    line too long (81 > 80 characters)  (line-length)
+  269:81    error    line too long (96 > 80 characters)  (line-length)
+  279:81    error    line too long (89 > 80 characters)  (line-length)
+  282:81    error    line too long (93 > 80 characters)  (line-length)
+  301:81    error    line too long (84 > 80 characters)  (line-length)
+  306:81    error    line too long (109 > 80 characters)  (line-length)
+  308:81    error    line too long (103 > 80 characters)  (line-length)
+  326:81    error    line too long (110 > 80 characters)  (line-length)
+  327:81    error    line too long (96 > 80 characters)  (line-length)
+  330:81    error    line too long (102 > 80 characters)  (line-length)
+  331:81    error    line too long (86 > 80 characters)  (line-length)
+  332:81    error    line too long (99 > 80 characters)  (line-length)
+  353:81    error    line too long (86 > 80 characters)  (line-length)
+  354:81    error    line too long (87 > 80 characters)  (line-length)
+  355:81    error    line too long (93 > 80 characters)  (line-length)
+  356:81    error    line too long (97 > 80 characters)  (line-length)
+  375:81    error    line too long (108 > 80 characters)  (line-length)
+  379:81    error    line too long (105 > 80 characters)  (line-length)
+  387:81    error    line too long (86 > 80 characters)  (line-length)
+  411:81    error    line too long (82 > 80 characters)  (line-length)
+  414:81    error    line too long (86 > 80 characters)  (line-length)
+  431:81    error    line too long (106 > 80 characters)  (line-length)
+  436:81    error    line too long (111 > 80 characters)  (line-length)
+  442:81    error    line too long (82 > 80 characters)  (line-length)
+  509:81    error    line too long (81 > 80 characters)  (line-length)
+  514:81    error    line too long (88 > 80 characters)  (line-length)
+  515:81    error    line too long (98 > 80 characters)  (line-length)
+  516:81    error    line too long (104 > 80 characters)  (line-length)
+  518:81    error    line too long (84 > 80 characters)  (line-length)
+  529:81    error    line too long (96 > 80 characters)  (line-length)
+  532:81    error    line too long (84 > 80 characters)  (line-length)
+  533:81    error    line too long (95 > 80 characters)  (line-length)
+  546:81    error    line too long (91 > 80 characters)  (line-length)
+  547:81    error    line too long (98 > 80 characters)  (line-length)
+  548:81    error    line too long (96 > 80 characters)  (line-length)
+  549:81    error    line too long (92 > 80 characters)  (line-length)
+  550:81    error    line too long (87 > 80 characters)  (line-length)
+  608:81    error    line too long (101 > 80 characters)  (line-length)
+  628:81    error    line too long (83 > 80 characters)  (line-length)
+  637:81    error    line too long (88 > 80 characters)  (line-length)
+  648:81    error    line too long (94 > 80 characters)  (line-length)
+  664:81    error    line too long (81 > 80 characters)  (line-length)
+  690:81    error    line too long (85 > 80 characters)  (line-length)
+  695:81    error    line too long (85 > 80 characters)  (line-length)
+  698:81    error    line too long (83 > 80 characters)  (line-length)
+  727:81    error    line too long (103 > 80 characters)  (line-length)
+  792:81    error    line too long (107 > 80 characters)  (line-length)
+  798:81    error    line too long (92 > 80 characters)  (line-length)
+  854:81    error    line too long (85 > 80 characters)  (line-length)
+  856:81    error    line too long (82 > 80 characters)  (line-length)
+  869:81    error    line too long (81 > 80 characters)  (line-length)
+  878:81    error    line too long (81 > 80 characters)  (line-length)
+  986:81    error    line too long (91 > 80 characters)  (line-length)
+  1000:81   error    line too long (94 > 80 characters)  (line-length)
+  1038:81   error    line too long (95 > 80 characters)  (line-length)
+  1081:81   error    line too long (88 > 80 characters)  (line-length)
+  1083:81   error    line too long (85 > 80 characters)  (line-length)
+  1096:81   error    line too long (81 > 80 characters)  (line-length)
+  1107:81   error    line too long (81 > 80 characters)  (line-length)
+  1143:3    error    wrong indentation: expected 4 but found 2  (indentation)
+  1146:81   error    line too long (110 > 80 characters)  (line-length)
+  1152:81   error    line too long (86 > 80 characters)  (line-length)
+  1168:81   error    line too long (83 > 80 characters)  (line-length)
+  1179:81   error    line too long (94 > 80 characters)  (line-length)
+  1196:81   error    line too long (103 > 80 characters)  (line-length)
+  1216:81   error    line too long (82 > 80 characters)  (line-length)
+  1265:81   error    line too long (205 > 80 characters)  (line-length)
+  1281:81   error    line too long (88 > 80 characters)  (line-length)
+  1292:81   error    line too long (94 > 80 characters)  (line-length)
+  1317:81   error    line too long (108 > 80 characters)  (line-length)
+  1337:81   error    line too long (82 > 80 characters)  (line-length)
+  1356:81   error    line too long (94 > 80 characters)  (line-length)
+  1389:81   error    line too long (92 > 80 characters)  (line-length)
+  1398:81   error    line too long (81 > 80 characters)  (line-length)
+  1540:81   error    line too long (94 > 80 characters)  (line-length)
+  1571:81   error    line too long (92 > 80 characters)  (line-length)
+  1579:81   error    line too long (106 > 80 characters)  (line-length)
+  1612:81   error    line too long (95 > 80 characters)  (line-length)
+  1700:81   error    line too long (81 > 80 characters)  (line-length)
+  1761:81   error    line too long (94 > 80 characters)  (line-length)
+  1789:81   error    line too long (103 > 80 characters)  (line-length)
+  1822:81   error    line too long (95 > 80 characters)  (line-length)
+  1874:81   error    line too long (88 > 80 characters)  (line-length)
+  1876:81   error    line too long (85 > 80 characters)  (line-length)
+  1889:81   error    line too long (81 > 80 characters)  (line-length)
+  1902:81   error    line too long (81 > 80 characters)  (line-length)
+  1913:81   error    line too long (81 > 80 characters)  (line-length)
+  1942:81   error    line too long (83 > 80 characters)  (line-length)
+  1977:81   error    line too long (94 > 80 characters)  (line-length)
+  1994:81   error    line too long (82 > 80 characters)  (line-length)
+  2010:81   error    line too long (82 > 80 characters)  (line-length)
+  2022:81   error    line too long (99 > 80 characters)  (line-length)
+  2062:81   error    line too long (92 > 80 characters)  (line-length)
+  2064:81   error    line too long (89 > 80 characters)  (line-length)
+  2086:81   error    line too long (81 > 80 characters)  (line-length)
+  2095:81   error    line too long (87 > 80 characters)  (line-length)
+  2130:81   error    line too long (101 > 80 characters)  (line-length)
+  2132:81   error    line too long (103 > 80 characters)  (line-length)
+  2167:81   error    line too long (94 > 80 characters)  (line-length)
+  2181:81   error    line too long (84 > 80 characters)  (line-length)
+  2205:81   error    line too long (101 > 80 characters)  (line-length)
+  2258:81   error    line too long (94 > 80 characters)  (line-length)
+  2278:81   error    line too long (88 > 80 characters)  (line-length)
+  2308:81   error    line too long (95 > 80 characters)  (line-length)
+  2309:81   error    line too long (81 > 80 characters)  (line-length)
+  2335:81   error    line too long (86 > 80 characters)  (line-length)
+  2336:81   error    line too long (91 > 80 characters)  (line-length)
+  2347:81   error    line too long (94 > 80 characters)  (line-length)
+  2365:81   error    line too long (82 > 80 characters)  (line-length)
+  2394:81   error    line too long (105 > 80 characters)  (line-length)
+  2395:81   error    line too long (109 > 80 characters)  (line-length)
+  2396:81   error    line too long (98 > 80 characters)  (line-length)
+  2397:81   error    line too long (87 > 80 characters)  (line-length)
+  2430:81   error    line too long (88 > 80 characters)  (line-length)
+  2433:81   error    line too long (95 > 80 characters)  (line-length)
+  2445:81   error    line too long (89 > 80 characters)  (line-length)
+  2485:81   error    line too long (81 > 80 characters)  (line-length)
+  2493:81   error    line too long (103 > 80 characters)  (line-length)
+  2500:81   error    line too long (90 > 80 characters)  (line-length)
+  2503:81   error    line too long (86 > 80 characters)  (line-length)
+  2520:81   error    line too long (108 > 80 characters)  (line-length)
+  2543:81   error    line too long (94 > 80 characters)  (line-length)
+  2587:81   error    line too long (85 > 80 characters)  (line-length)
+  2691:81   error    line too long (102 > 80 characters)  (line-length)
+  2692:81   error    line too long (81 > 80 characters)  (line-length)
+  2693:81   error    line too long (86 > 80 characters)  (line-length)
+  2699:81   error    line too long (99 > 80 characters)  (line-length)
+  2727:81   error    line too long (94 > 80 characters)  (line-length)
+  2753:81   error    line too long (106 > 80 characters)  (line-length)
+  2775:81   error    line too long (94 > 80 characters)  (line-length)
+  2847:81   error    line too long (84 > 80 characters)  (line-length)
+  2850:81   error    line too long (98 > 80 characters)  (line-length)
+  2851:81   error    line too long (106 > 80 characters)  (line-length)
+  2852:81   error    line too long (98 > 80 characters)  (line-length)
+  2854:81   error    line too long (92 > 80 characters)  (line-length)
+  2856:81   error    line too long (103 > 80 characters)  (line-length)
+  2958:81   error    line too long (98 > 80 characters)  (line-length)
+  2973:81   error    line too long (81 > 80 characters)  (line-length)
+  2984:81   error    line too long (96 > 80 characters)  (line-length)
+  2991:81   error    line too long (91 > 80 characters)  (line-length)
+
+deploy/elk/kibana-values.yaml
+  1:1       warning  missing document start "---"  (document-start)
+
+deploy/spark/spark-connect-values.yaml
+  5:81      error    line too long (122 > 80 characters)  (line-length)
+  6:1       warning  missing document start "---"  (document-start)
+  13:81     error    line too long (195 > 80 characters)  (line-length)
+  24:81     error    line too long (180 > 80 characters)  (line-length)
+  37:81     error    line too long (167 > 80 characters)  (line-length)
+  39:81     error    line too long (93 > 80 characters)  (line-length)
+  46:81     error    line too long (86 > 80 characters)  (line-length)
+  47:81     error    line too long (88 > 80 characters)  (line-length)
+  50:81     error    line too long (104 > 80 characters)  (line-length)
+  51:81     error    line too long (97 > 80 characters)  (line-length)
+  54:81     error    line too long (107 > 80 characters)  (line-length)
+  57:81     error    line too long (118 > 80 characters)  (line-length)
+  58:81     error    line too long (100 > 80 characters)  (line-length)
+  64:81     error    line too long (110 > 80 characters)  (line-length)
+  65:81     error    line too long (83 > 80 characters)  (line-length)
+  67:81     error    line too long (94 > 80 characters)  (line-length)
+  82:81     error    line too long (115 > 80 characters)  (line-length)
+  89:81     error    line too long (90 > 80 characters)  (line-length)
+  131:81    error    line too long (123 > 80 characters)  (line-length)
+  138:81    error    line too long (90 > 80 characters)  (line-length)
+  152:81    error    line too long (83 > 80 characters)  (line-length)
+  154:81    error    line too long (81 > 80 characters)  (line-length)
+  188:81    error    line too long (89 > 80 characters)  (line-length)
+  195:81    error    line too long (93 > 80 characters)  (line-length)
+  203:81    error    line too long (144 > 80 characters)  (line-length)
+  212:81    error    line too long (82 > 80 characters)  (line-length)
+  216:81    error    line too long (111 > 80 characters)  (line-length)
+  219:81    error    line too long (106 > 80 characters)  (line-length)
+  223:3     warning  comment not indented like content  (comments-indentation)
+  226:3     warning  comment not indented like content  (comments-indentation)
+  233:81    error    line too long (135 > 80 characters)  (line-length)
+  245:81    error    line too long (88 > 80 characters)  (line-length)
+  249:81    error    line too long (113 > 80 characters)  (line-length)
+  255:81    error    line too long (158 > 80 characters)  (line-length)
+  260:81    error    line too long (168 > 80 characters)  (line-length)
+  265:4     warning  missing starting space in comment  (comments)
+  267:81    error    line too long (104 > 80 characters)  (line-length)
+  276:4     warning  missing starting space in comment  (comments)
+  279:81    error    line too long (162 > 80 characters)  (line-length)
+  284:81    error    line too long (88 > 80 characters)  (line-length)
+  286:81    error    line too long (95 > 80 characters)  (line-length)
+  294:81    error    line too long (125 > 80 characters)  (line-length)
+  300:81    error    line too long (91 > 80 characters)  (line-length)
+  305:81    error    line too long (147 > 80 characters)  (line-length)
+  310:5     warning  comment not indented like content  (comments-indentation)
+  322:81    error    line too long (190 > 80 characters)  (line-length)
+
+Detect secrets...........................................................Failed
+- hook id: detect-secrets
+- exit code: 1
+
+ERROR: Potential secrets about to be committed to git repo!
+
+Secret Type: Basic Auth Credentials
+Location:    deploy\airflow\values.yaml:432
+
+Secret Type: Secret Keyword
+Location:    deploy\airflow\values.yaml:1605
+
+Secret Type: Secret Keyword
+Location:    deploy\airflow\values.yaml:2763
+
+Secret Type: Secret Keyword
+Location:    terraform\main.tf:73
+
+Possible mitigations:
+  - For information about putting your secrets in a safer place, please ask in
+    #security
+  - Mark false positives with an inline `pragma: allowlist secret` comment
+
+If a secret has already been committed, visit
+https://help.github.com/articles/removing-sensitive-data-from-a-repository
+ERROR: Potential secrets about to be committed to git repo!
+
+Secret Type: Secret Keyword
+Location:    deploy\airflow\proxy-deployment.yaml:33
+
+Possible mitigations:
+  - For information about putting your secrets in a safer place, please ask in
+    #security
+  - Mark false positives with an inline `pragma: allowlist secret` comment
+
+If a secret has already been committed, visit
+https://help.github.com/articles/removing-sensitive-data-from-a-repository
+ERROR: Potential secrets about to be committed to git repo!
+
+Secret Type: Basic Auth Credentials
+Location:    deploy\deploy_stacks.sh:9
+
+Secret Type: Secret Keyword
+Location:    terraform\terraform.tfvars:4
+
+Possible mitigations:
+  - For information about putting your secrets in a safer place, please ask in
+    #security
+  - Mark false positives with an inline `pragma: allowlist secret` comment
+
+If a secret has already been committed, visit
+https://help.github.com/articles/removing-sensitive-data-from-a-repository
+
+[WARNING] Stashed changes conflicted with hook auto-fixes... Rolling back fixes...
+[INFO] Restored changes from C:\Users\gjstj\.cache\pre-commit\patch1744456927-21816.
