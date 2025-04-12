@@ -77,11 +77,7 @@ kubectl version --client
 - 인프라 띄우기
 
 ```sh
-./start.sh
+./deploy_all.sh
 ```
 
-- 인프라 내리기
-
-```sh
-./destroy.sh
-```
+- 인프라 내리기: LB 관련 꼬임 문제로 모든 배포를 삭제하시고 `terraform destroy`를 진행
