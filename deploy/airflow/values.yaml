@@ -79,11 +79,11 @@ airflowVersion: "2.10.5"
 # Images
 images:
   airflow:
-    repository: ~
-    tag: ~
+    repository: apache/airflow
+    tag: "2.10.5"
     # Specifying digest takes precedence over tag.
     digest: ~
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   # To avoid images with user code, you can turn this to 'true' and
   # all the 'run-airflow-migrations' and 'wait-for-airflow-migrations' containers/jobs
   # will use the images from 'defaultAirflowRepository:defaultAirflowTag' values
@@ -139,15 +139,22 @@ labels: {}
 # Ingress configuration
 ingress:
   # Enable all ingress resources (deprecated - use ingress.web.enabled and ingress.flower.enabled)
-  enabled: ~
+  enabled: false
 
   # Configs for the Ingress of the web Service
   web:
     # Enable web ingress resource
     enabled: true
 
+    # The Ingress Class for the web Ingress (used only with Kubernetes v1.19 and above)
+    ingressClassName: "nginx"
+
     # Annotations for the web Ingress
-    annotations: {}
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        more_set_headers "X-Forwarded-Proto: https";
 
     # The path for the web Ingress
     path: "/"
@@ -156,21 +163,18 @@ ingress:
     pathType: "ImplementationSpecific"
 
     # The hostname for the web Ingress (Deprecated - renamed to `ingress.web.hosts`)
-    host: ""
+    # host: ""
 
     # The hostnames or hosts configuration for the web Ingress
-    hosts: []
-    #   # The hostname for the web Ingress (templated)
-    # - name: ""
-    #   # configs for web Ingress TLS
-    #   tls:
-    #     # Enable TLS termination for the web Ingress
-    #     enabled: false
-    #     # the name of a pre-created Secret containing a TLS private key and certificate
-    #     secretName: ""
-
-    # The Ingress Class for the web Ingress (used only with Kubernetes v1.19 and above)
-    ingressClassName: ""
+    hosts:
+      # The hostname for the web Ingress (templated)
+      - name: "*"
+        # configs for web Ingress TLS
+        tls:
+          # Enable TLS termination for the web Ingress
+          enabled: false
+          # the name of a pre-created Secret containing a TLS private key and certificate
+          secretName: ""
 
     # configs for web Ingress TLS (Deprecated - renamed to `ingress.web.hosts[*].tls`)
     tls:
@@ -225,7 +229,7 @@ ingress:
   # Configs for the Ingress of the statsd Service
   statsd:
     # Enable web ingress resource
-    enabled: true
+    enabled: false
 
     # Annotations for the statsd Ingress
     annotations: {}
@@ -334,15 +338,40 @@ executor: "KubernetesExecutor"
 allowPodLaunching: true
 
 # Environment variables for all airflow containers
-env: []
+env:
+  # - name: AIRFLOW__CORE__AUTH_MANAGER
+  #   value: "airflow.api_fastapi.auth.managers.simple.simple_auth_manager.SimpleAuthManager"
+  # - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS
+  #   value: "admin:Admin"
+  # - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS
+  #   value: "True"
+  - name: AIRFLOW__CORE__LOAD_EXAMPLES
+    value: "False"
+  # - name: AIRFLOW__API_AUTH__JWT_PRIVATE_KEY_PATH
+  #   value: /opt/airflow/jwt/private_key.pem
+  # - name: AIRFLOW__JWT__SECRET
+  #   value: "c2VjcmV0X2p3dF9rZXlfZm9yX2FwaV9zZXJ2aWNlXzAxMjM0NTY3ODk="
+  # - name: AIRFLOW__JWT__AUDIENCE
+  #   value: "airflow"
+  # - name: AIRFLOW__JWT__ISSUER
+  #   value: "airflow"
+  # - name: AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX
+  #   value: "True"
 # - name: ""
 #   value: ""
 
 # Volumes for all airflow containers
 volumes: []
+  # - name: jwt-key
+  #   secret:
+  #     secretName: jwt-secret
+
 
 # VolumeMounts for all airflow containers
 volumeMounts: []
+  # - name: jwt-key
+  #   mountPath: /opt/airflow/jwt
+  #   readOnly: true
 
 # Secrets for all airflow containers
 secret: []
@@ -356,17 +385,21 @@ secret: []
 # in this case disable setting of those variables by setting the relevant configuration to false.
 enableBuiltInSecretEnvVars:
   AIRFLOW__CORE__FERNET_KEY: true
-  # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
   AIRFLOW__CORE__SQL_ALCHEMY_CONN: true
-  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: false
-  AIRFLOW_CONN_AIRFLOW_DB: true
+  # AIRFLOW_CONN_AIRFLOW_DB: false
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: true
   AIRFLOW__WEBSERVER__SECRET_KEY: true
-  AIRFLOW__CELERY__CELERY_RESULT_BACKEND: true
-  AIRFLOW__CELERY__RESULT_BACKEND: true
-  AIRFLOW__CELERY__BROKER_URL: true
-  AIRFLOW__ELASTICSEARCH__HOST: true
-  AIRFLOW__ELASTICSEARCH__ELASTICSEARCH_HOST: true
-  AIRFLOW__OPENSEARCH__HOST: true
+  
+  # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
+  # below for airflow 3.0.0 ~
+  # AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: true
+  # AIRFLOW__CORE__SIMPLE_ATH_MANAGER_ALL_ADMINS: true
+  # AIRFLOW__CELERY__CELERY_RESULT_BACKEND: true
+  # AIRFLOW__CELERY__RESULT_BACKEND: true
+  # AIRFLOW__CELERY__BROKER_URL: true
+  # AIRFLOW__ELASTICSEARCH__HOST: true
+  # AIRFLOW__ELASTICSEARCH__ELASTICSEARCH_HOST: true
+  # AIRFLOW__OPENSEARCH__HOST: true
 
 # Priority Classes that will be installed by charts.
 # Ideally, there should be an entry for dagProcessor, flower,
@@ -434,6 +467,12 @@ extraEnv: |
     value: 'False'
   - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
     value: 'postgresql+psycopg2://airflow:postgres@cloudsql-proxy-svc.airflow.svc.cluster.local:5432/airflowdb'
+
+# below is for 3.0.0 ~ 
+# - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS
+#   value: "admin:admin"
+# - name: AIRFLOW__CORE__AUTH_MANAGER
+#   value: "airflow.api_fastapi.auth.managers.simple.simple_auth_manager.SimpleAuthManager"
 # eg:
 # extraEnv: |
 #   - name: AIRFLOW__CORE__LOAD_EXAMPLES
@@ -1140,16 +1179,27 @@ createUserJob:
   command: ~
   # Args to use when running the create user job (templated).
   args:
-  - "bash"
-  - "-c"
-  - |
-    exec airflow {{ semverCompare ">=2.0.0" .Values.airflowVersion | ternary "users create" "create_user" }} \
-    -r {{ .Values.webserver.defaultUser.role }} \
-    -u {{ .Values.webserver.defaultUser.username }} \
-    -e {{ .Values.webserver.defaultUser.email }} \
-    -f {{ .Values.webserver.defaultUser.firstName }} \
-    -l {{ .Values.webserver.defaultUser.lastName }} \
-    -p {{ .Values.webserver.defaultUser.password }} && echo "✔ User created" && exit 0
+    # - "bash"
+    # - "-c"
+    # - |
+    #   airflow dags list && echo "Dummy create user job"
+    # # The format below is necessary to get `helm lint` happy
+    - |-
+      exec \
+      airflow {{ semverCompare ">=2.0.0" .Values.airflowVersion | ternary "users create" "create_user" }} "$@"
+    - --
+    - "-r"
+    - "{{ .Values.webserver.defaultUser.role }}"
+    - "-u"
+    - "{{ .Values.webserver.defaultUser.username }}"
+    - "-e"
+    - "{{ .Values.webserver.defaultUser.email }}"
+    - "-f"
+    - "{{ .Values.webserver.defaultUser.firstName }}"
+    - "-l"
+    - "{{ .Values.webserver.defaultUser.lastName }}"
+    - "-p"
+    - "{{ .Values.webserver.defaultUser.password }}"
 
   # Annotations on the create user job pod
   annotations: {}
@@ -1340,104 +1390,128 @@ migrateDatabaseJob:
   applyCustomEnv: true
   env: []
 
-apiServer:
+# apiServer:
+#   # Labels specific to workers objects and pods
+#   labels: {}
 
-  # Labels specific to workers objects and pods
-  labels: {}
+#   # Command to use when running the Airflow API server (templated).
+#   command: ~
+#   # Args to use when running the Airflow API server (templated).
+#   args: ["bash", "-c", "exec airflow api-server --proxy-headers"]
+#   allowPodLogReading: true
+  
+#   env:
+#     - name: AIRFLOW__API__AUTH_BACKEND
+#       value: "airflow.api.auth.backend.default.allow_all"
+#     - name: AIRFLOW__API_AUTH__JWT_EXPIRATION_TIME
+#       value: "36000"
+#     - name: AIRFLOW__API_AUTH__JWT_AUDIENCE
+#       value: "airflow"   # Web UI가 기대하는 audience로 맞춰줘야 함
+#     - name: AIRFLOW__API_AUTH__JWT_ISSUER
+#       value: "airflow"   # issuer도 맞춰줘야 함
+#     - name: AIRFLOW__CORE__AUTH_MANAGER
+#       value: "airflow.api_fastapi.auth.managers.simple.simple_auth_manager.SimpleAuthManager"
+#     - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS
+#       value: "admin:admin"
+#     - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS
+#       value: "True"
+#     - name: AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX
+#       value: "True"
+#     - name: AIRFLOW__WEBSERVER__X_FORWARDED_PROTO
+#       value: "http"
+#     - name: AIRFLOW__API__FORWARDED_ALLOW_IPS
+#       value: "*"
+#     - name: AIRFLOW__API_AUTH__JWT_SECRET
+#       value: "c2VjcmV0X2p3dF9rZXlfZm9yX2FwaV9zZXJ2aWNlXzAxMjM0NTY3ODk="
+#     - name: AIRFLOW__API_AUTH__COOKIE_SECURE
+#       value: "False"
+#   serviceAccount:
+#     # default value is true
+#     # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+#     automountServiceAccountToken: true
+#     # Specifies whether a ServiceAccount should be created
+#     create: true
+#     # The name of the ServiceAccount to use.
+#     # If not set and create is true, a name is generated using the release name
+#     name: ~
 
-  # Command to use when running the Airflow API server (templated).
-  command: ~
-  # Args to use when running the Airflow API server (templated).
-  args: ["bash", "-c", "exec airflow api-server"]
-  allowPodLogReading: true
-  env: []
-  serviceAccount:
-    # default value is true
-    # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
-    automountServiceAccountToken: true
-    # Specifies whether a ServiceAccount should be created
-    create: true
-    # The name of the ServiceAccount to use.
-    # If not set and create is true, a name is generated using the release name
-    name: ~
+#     # Annotations to add to webserver kubernetes service account.
+#     annotations: {}
+#   service:
+#     type: LoadBalancer
+#     ## service annotations
+#     annotations: {}
+#     ports:
+#       - name: api-server
+#         port: "{{ .Values.ports.apiServer }}"
 
-    # Annotations to add to webserver kubernetes service account.
-    annotations: {}
-  service:
-    type: ClusterIP
-    ## service annotations
-    annotations: {}
-    ports:
-      - name: api-server
-        port: "{{ .Values.ports.apiServer }}"
+#     loadBalancerIP: ~
+#     ## Limit load balancer source ips to list of CIDRs
+#     # loadBalancerSourceRanges:
+#     #   - "10.123.0.0/16"
+#     loadBalancerSourceRanges: []
 
-    loadBalancerIP: ~
-    ## Limit load balancer source ips to list of CIDRs
-    # loadBalancerSourceRanges:
-    #   - "10.123.0.0/16"
-    loadBalancerSourceRanges: []
+#   podDisruptionBudget:
+#     enabled: false
 
-  podDisruptionBudget:
-    enabled: false
+#     # PDB configuration
+#     config:
+#       # minAvailable and maxUnavailable are mutually exclusive
+#       maxUnavailable: 1
+#       # minAvailable: 1
 
-    # PDB configuration
-    config:
-      # minAvailable and maxUnavailable are mutually exclusive
-      maxUnavailable: 1
-      # minAvailable: 1
+#   # Detailed default security contexts for webserver deployments for container and pod level
+#   securityContexts:
+#     pod: {}
+#     container: {}
 
-  # Detailed default security contexts for webserver deployments for container and pod level
-  securityContexts:
-    pod: {}
-    container: {}
+#   waitForMigrations:
+#     # Whether to create init container to wait for db migrations
+#     enabled: true
+#     env: []
+#     # Detailed default security context for waitForMigrations for container level
+#     securityContexts:
+#       container: {}
 
-  waitForMigrations:
-    # Whether to create init container to wait for db migrations
-    enabled: true
-    env: []
-    # Detailed default security context for waitForMigrations for container level
-    securityContexts:
-      container: {}
+#   # Launch additional containers into the flower pods.
+#   extraContainers: []
 
-  # Launch additional containers into the flower pods.
-  extraContainers: []
+#   networkPolicy:
+#     ingress:
+#       # Peers for webserver NetworkPolicy ingress
+#       from: []
+#       # Ports for webserver NetworkPolicy ingress (if `from` is set)
+#       ports:
+#         - port: "{{ .Values.ports.apiServer }}"
 
-  networkPolicy:
-    ingress:
-      # Peers for webserver NetworkPolicy ingress
-      from: []
-      # Ports for webserver NetworkPolicy ingress (if `from` is set)
-      ports:
-        - port: "{{ .Values.ports.apiServer }}"
+#   resources: {}
+#   #   limits:
+#   #     cpu: 100m
+#   #     memory: 128Mi
+#   #   requests:
+#   #     cpu: 100m
+#   #     memory: 128Mi
 
-  resources: {}
-  #   limits:
-  #     cpu: 100m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 128Mi
+#   livenessProbe:
+#     initialDelaySeconds: 15
+#     timeoutSeconds: 5
+#     failureThreshold: 5
+#     periodSeconds: 10
+#     scheme: HTTP
 
-  livenessProbe:
-    initialDelaySeconds: 15
-    timeoutSeconds: 5
-    failureThreshold: 5
-    periodSeconds: 10
-    scheme: HTTP
+#   readinessProbe:
+#     initialDelaySeconds: 15
+#     timeoutSeconds: 5
+#     failureThreshold: 5
+#     periodSeconds: 10
+#     scheme: HTTP
 
-  readinessProbe:
-    initialDelaySeconds: 15
-    timeoutSeconds: 5
-    failureThreshold: 5
-    periodSeconds: 10
-    scheme: HTTP
-
-  startupProbe:
-    initialDelaySeconds: 0
-    timeoutSeconds: 20
-    failureThreshold: 6
-    periodSeconds: 10
-    scheme: HTTP
+#   startupProbe:
+#     initialDelaySeconds: 0
+#     timeoutSeconds: 20
+#     failureThreshold: 6
+#     periodSeconds: 10
+#     scheme: HTTP
 
 # Airflow webserver settings
 webserver:
@@ -1513,7 +1587,7 @@ webserver:
 
   # Allow HPA
   hpa:
-    enabled: false
+    enabled: true
 
     # Minimum number of webservers created by HPA
     minReplicaCount: 1
@@ -1701,7 +1775,22 @@ webserver:
     securityContexts:
       container: {}
 
-  env: []
+  env:
+    # below is for 3.0.0
+    # - name: AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX
+    #   value: "True"
+    # - name: AIRFLOW__CORE__AUTH_MANAGER
+    #   value: "airflow.api_fastapi.auth.managers.simple.simple_auth_manager.SimpleAuthManager"
+    # - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS
+    #   value: "admin:admin"
+    # - name: AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS
+    #   value: "True"
+    # - name: AIRFLOW__WEBSERVER__X_FORWARDED_PROTO
+    #   value: "http"
+    # - name: AIRFLOW__API_AUTH__JWT_AUDIENCE
+    #   value: "airflow"   # Web UI가 기대하는 audience로 맞춰줘야 함
+    # - name: AIRFLOW__API_AUTH__JWT_ISSUER
+    #   value: "airflow"   # issuer도 맞춰줘야 함
 
 # Airflow Triggerer Config
 triggerer:
@@ -2783,7 +2872,7 @@ config:
     # For Airflow 1.10, backward compatibility; moved to [logging] in 2.0
     colored_console_log: 'False'
     remote_logging: '{{- ternary "True" "False" (or .Values.elasticsearch.enabled .Values.opensearch.enabled) }}'
-    auth_manager: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
+    # auth_manager: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
   logging:
     remote_logging: '{{- ternary "True" "False" (or .Values.elasticsearch.enabled .Values.opensearch.enabled) }}'
     colored_console_log: 'False'
@@ -2792,8 +2881,11 @@ config:
     statsd_port: 9125
     statsd_prefix: airflow
     statsd_host: '{{ printf "%s-statsd" (include "airflow.fullname" .) }}'
+  api:
+    enable_proxy_fix: 'True'
   webserver:
     enable_proxy_fix: 'True'
+    base_url: http://34.47.122.166
     # For Airflow 1.10
     rbac: 'True'
   celery:
@@ -2876,7 +2968,7 @@ podTemplate: ~
 dags:
   # Where dags volume will be mounted. Works for both persistence and gitSync.
   # If not specified, dags mount path will be set to $AIRFLOW_HOME/dags
-  mountPath: ~
+  mountPath: /opt/airflow/dags
   persistence:
     # Annotations for dags PVC
     annotations: {}
@@ -2898,7 +2990,7 @@ dags:
     # git repo clone url
     # ssh example: git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/CoffeeIsNak/my_code_vocab_note.git
+    repo: https://github.com/DE-QuILLA/code-task.git
     branch: main
     rev: HEAD
     # The git revision (branch, tag, or hash) to check out, v4 only
@@ -2908,7 +3000,7 @@ dags:
     maxFailures: 1
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: "dags"
+    subPath: "airflow/dags/"
     # if your repo needs a user name password
     # you can load them to a k8s secret like the one below
     #   ---
@@ -2959,7 +3051,7 @@ dags:
     # low values cause more traffic to the remote git repository
     # Go-style duration string (e.g. "100ms" or "0.1s" = 100ms).
     # For backwards compatibility, wait will be used if it is specified.
-    period: 5s
+    period: 20s
     wait: ~
     # add variables from secret into gitSync containers, such proxy-config
     envFrom: ~

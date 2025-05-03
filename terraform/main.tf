@@ -51,9 +51,9 @@ resource "google_sql_database" "airflow_db" {
 
 
 # ---------------------- Pub/Sub Topics ----------------------------
-# resource "google_pubsub_topic" "my_topic" {
-#   name = "my-topic"
-# }
+resource "google_pubsub_topic" "my_topic" {
+  name = "my-topic"
+}
 
 
 # ---------------------- Service Account & Key ----------------------
@@ -84,7 +84,7 @@ resource "google_container_cluster" "primary" {
   location = var.region
 
   remove_default_node_pool = true
-  initial_node_count       = 1
+  initial_node_count       = 1 # ✅ 이렇게 1로 설정!
 
   network    = "default"
   subnetwork = "default"
@@ -92,6 +92,23 @@ resource "google_container_cluster" "primary" {
   deletion_protection = false
   ip_allocation_policy {}
 }
+
+
+resource "google_compute_firewall" "allow_ingress_ports" {
+  name    = "allow-ingress-ports"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443", "8080", "22", "880"]
+  }
+
+  direction     = "INGRESS"
+  source_ranges = ["0.0.0.0/0"]
+
+  target_tags = ["gke-node"]
+}
+
 
 resource "google_container_node_pool" "primary_nodes" {
   name       = "node-pool"
@@ -103,6 +120,7 @@ resource "google_container_node_pool" "primary_nodes" {
     machine_type = var.machine_type
     disk_size_gb = 30
     oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    tags         = ["gke-node"]
   }
 
   autoscaling {
@@ -158,4 +176,8 @@ output "gke_cluster_region" {
 
 output "project_id" {
   value = var.project_id
+}
+
+output "pub_sub_topic_name" {
+  value = google_pubsub_topic.my_topic.name
 }

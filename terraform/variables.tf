@@ -16,7 +16,7 @@ variable "cluster_name" {
 variable "machine_type" {
   description = "GKE Node Machine Type"
   type        = string
-  default     = "e2-standard-2"
+  default     = "e2-standard-4"
 }
 
 variable "min_size" {
@@ -28,7 +28,7 @@ variable "min_size" {
 variable "max_size" {
   description = "GKE Node Pool Max Size"
   type        = number
-  default     = 6
+  default     = 7
 }
 
 variable "desired_size" {
