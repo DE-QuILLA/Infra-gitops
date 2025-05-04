@@ -1,135 +1,19 @@
+# ---------------------------- Providers ---------------------------- #
 terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
       version = "~> 5.0"
     }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "2.17.0"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.30.0"
-    }
   }
+  required_version = ">= 1.3.0"
 }
 
 provider "google" {
   project = var.project_id
-  region  = var.region
+  region  = var.gcp_region
 }
 
-data "google_client_config" "current" {}
-
-# ---------------------- Cloud SQL ----------------------
-resource "google_sql_database_instance" "airflow" {
-  name                = "airflow-sql"
-  database_version    = "POSTGRES_14"
-  region              = var.region
-  deletion_protection = false
-
-  settings {
-    tier = "db-custom-2-8192"
-
-    ip_configuration {
-      ipv4_enabled = true
-    }
-  }
-}
-
-resource "google_sql_user" "airflow" {
-  name     = "airflow"
-  instance = google_sql_database_instance.airflow.name
-  password = var.db_password
-}
-
-resource "google_sql_database" "airflow_db" {
-  name     = "airflowdb"
-  instance = google_sql_database_instance.airflow.name
-}
-
-
-# ---------------------- Pub/Sub Topics ----------------------------
-resource "google_pubsub_topic" "my_topic" {
-  name = "my-topic"
-}
-
-
-# ---------------------- Service Account & Key ----------------------
-resource "google_service_account" "cloudsql_sa" {
-  account_id   = "cloudsql-proxy-airflow"
-  display_name = "CloudSQL Proxy SA"
-}
-
-resource "google_project_iam_member" "cloudsql_sa_binding" {
-  role    = "roles/cloudsql.client"
-  member  = "serviceAccount:${google_service_account.cloudsql_sa.email}"
-  project = var.project_id
-}
-
-resource "google_service_account_key" "cloudsql_sa_key" {
-  service_account_id = google_service_account.cloudsql_sa.name
-  private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE" # pragma: allowlist secret
-}
-
-resource "local_file" "cloudsql_key_file" {
-  content  = base64decode(google_service_account_key.cloudsql_sa_key.private_key)
-  filename = "../deploy/key.json"
-}
-
-# ---------------------- GKE ----------------------
-resource "google_container_cluster" "primary" {
-  name     = var.cluster_name
-  location = var.region
-
-  remove_default_node_pool = true
-  initial_node_count       = 1 # ✅ 이렇게 1로 설정!
-
-  network    = "default"
-  subnetwork = "default"
-
-  deletion_protection = false
-  ip_allocation_policy {}
-}
-
-
-resource "google_compute_firewall" "allow_ingress_ports" {
-  name    = "allow-ingress-ports"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "443", "8080", "22", "880"]
-  }
-
-  direction     = "INGRESS"
-  source_ranges = ["0.0.0.0/0"]
-
-  target_tags = ["gke-node"]
-}
-
-
-resource "google_container_node_pool" "primary_nodes" {
-  name       = "node-pool"
-  location   = var.region
-  cluster    = google_container_cluster.primary.name
-  node_count = var.desired_size
-
-  node_config {
-    machine_type = var.machine_type
-    disk_size_gb = 30
-    oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-    tags         = ["gke-node"]
-  }
-
-  autoscaling {
-    min_node_count = var.min_size
-    max_node_count = var.max_size
-  }
-}
-
-# ---------------------- Providers for K8s/Helm ----------------------
 provider "kubernetes" {
   host                   = "https://${google_container_cluster.primary.endpoint}"
   token                  = data.google_client_config.current.access_token
@@ -144,40 +28,76 @@ provider "helm" {
   }
 }
 
-# ---------------------- Outputs ----------------------
-output "cloudsql_instance_connection_name" {
-  value = google_sql_database_instance.airflow.connection_name
+# ---------------------------- VPC ---------------------------- #
+module "vpc" {
+  source             = "./modules/vpc"
+  gcp_vpc_name       = var.gcp_vpc_name
+  subnet_public_cidr = var.subnet_public_cidr
+  gcp_region         = var.gcp_region
 }
 
-output "cloudsql_user" {
-  value = google_sql_user.airflow.name
+# ------------------------- CloudSQL and SAs ------------------------- #
+module "cloudsql" {
+  source         = "./modules/cloudsql"
+  project_id     = var.gcp_project_id
+  region         = var.gcp_region
+  db_instance_id = var.db_instance_id
+  db_name        = var.db_name
+  db_user        = var.db_user
+  db_password    = var.db_password
 }
 
-output "cloudsql_db_name" {
-  value = google_sql_database.airflow_db.name
+# ---------------------------- GKE ----------------------------
+module "gke" {
+  source           = "./modules/gke"
+  gke_cluster_name = var.gke_cluster_name
+  gcp_region       = var.gcp_region
+  network_name     = module.vpc.network_name
+  subnet_name      = module.vpc.subnet_name
+  gke_machine_type = var.gke_machine_type
+  desired_size     = var.gke_desired_size
+  min_size         = var.gke_min_size
+  max_size         = var.gke_max_size
 }
 
-output "cloudsql_sa_key" {
-  value     = google_service_account_key.cloudsql_sa_key.private_key
-  sensitive = true
+# kubeconfig
+resource "null_resource" "update_kubeconfig" {
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.gke_cluster_name} --region ${var.gcp_region} --project ${var.project_id}"
+  }
+  depends_on = [module.gke]
 }
 
-output "cloudsql_sa_key_path" {
-  value = local_file.cloudsql_key_file.filename
+# ---------------------------- GCE modules ---------------------------- #
+module "elk_nodes" {
+  source     = "./modules/elk_nodes"
+  project_id = var.project_id
+  region     = var.gcp_region
+  network    = module.vpc.vpc_name
+  subnet     = module.vpc.subnet_name
 }
 
-output "gke_cluster_name" {
-  value = google_container_cluster.primary.name
+module "kafka_nodes" {
+  source     = "./modules/kafka_nodes"
+  project_id = var.project_id
+  region     = var.gcp_region
+  network    = module.vpc.vpc_name
+  subnet     = module.vpc.subnet_name
 }
 
-output "gke_cluster_region" {
-  value = var.region
+module "ch_nodes" {
+  source     = "./modules/ch_nodes"
+  project_id = var.project_id
+  region     = var.gcp_region
+  network    = module.vpc.vpc_name
+  subnet     = module.vpc.subnet_name
 }
 
-output "project_id" {
-  value = var.project_id
+# ---------------------------- BigQuery ----------------------------
+module "bigquery" {
+  source     = "./modules/bigquery"
+  project_id = var.project_id
+  dataset_id = var.bq_dataset_id
 }
 
-output "pub_sub_topic_name" {
-  value = google_pubsub_topic.my_topic.name
-}
+# ---------------------------- END ----------------------------
