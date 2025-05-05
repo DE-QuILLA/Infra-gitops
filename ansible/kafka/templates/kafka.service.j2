@@ -1,0 +1,14 @@
+[Unit]
+Description=Apache Kafka Server
+After=network.target
+
+[Service]
+Type=simple
+User={{ kafka_user }}
+ExecStart={{ kafka_full_path }}/bin/kafka-server-start.sh {{ kafka_config_path }}
+ExecStop={{ kafka_full_path }}/bin/kafka-server-stop.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

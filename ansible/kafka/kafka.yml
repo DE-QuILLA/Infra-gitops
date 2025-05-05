@@ -1,0 +1,175 @@
+- name: Kafka 설치 및 설정 (KRaft 모드)
+  hosts: kafka
+  gather_facts: yes
+  become: true
+  vars:
+    kafka_user: kafka
+    kafka_group: kafka
+    kafka_archive_path: /tmp/kafka.tgz
+    kafka_extract_path: "{{ kafka_install_dir }}"
+    kafka_full_path: "{{ kafka_install_dir }}/kafka_{{ scala_version }}-{{ kafka_version }}"
+    kafka_config_path: "{{ kafka_full_path }}/config/server.properties"
+    kafka_cluster_id_path: /tmp/kafka_cluster_id
+    kafka_cluster_id_file_local: /tmp/kafka_cluster_id_fetched
+    kafka_log_dir: "{{ kafka_log_dirs }}"
+    kafka_config_file: "{{ kafka_full_path }}/config/server.properties"
+
+  tasks:
+
+    - name: 필수 패키지 설치 (Java 등)
+      apt:
+        name: [openjdk-17-jdk, wget, net-tools]
+        state: present
+        update_cache: yes
+
+    - name: kafka 그룹 생성
+      group:
+        name: "{{ kafka_group }}"
+
+    - name: Kafka 사용자 생성
+      user:
+        name: "{{ kafka_user }}"
+        group: "{{ kafka_group }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
+
+    - name: Kafka 설치 디렉토리 생성
+      file:
+        path: "{{ kafka_install_dir }}"
+        state: directory
+        owner: "{{ kafka_user }}"
+        group: "{{ kafka_group }}"
+        mode: '0755'
+
+    - name: Kafka 바이너리 다운로드
+      get_url:
+        url: "https://downloads.apache.org/kafka/{{ kafka_version }}/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+        dest: "{{ kafka_archive_path }}"
+        mode: '0644'
+
+    - name: Kafka 압축 해제
+      unarchive:
+        src: "{{ kafka_archive_path }}"
+        dest: "{{ kafka_install_dir }}"
+        remote_src: yes
+        creates: "{{ kafka_full_path }}"
+
+    - name: Kafka logs 디렉토리 생성
+      file:
+        path: "{{ kafka_full_path }}/logs"
+        state: directory
+        owner: "{{ kafka_user }}"
+        group: "{{ kafka_group }}"
+        mode: '0755'
+
+    - name: Kafka 설정 파일 배포 (Jinja2 템플릿 적용)
+      template:
+        src: "templates/server.properties.j2"
+        dest: "{{ kafka_config_path }}"
+        owner: "{{ kafka_user }}"
+        group: "{{ kafka_group }}"
+        mode: '0644'
+
+    # - name: Kafka 실행 (백그라운드 테스트용, 운영 시 systemd 권장)
+    #   shell: |
+    #     nohup {{ kafka_full_path }}/bin/kafka-server-start.sh {{ kafka_config_path }} > /var/log/kafka.log 2>&1 &
+    #   args:
+    #     executable: /bin/bash
+    #   async: 30
+    #   poll: 0
+
+    - name: Kafka systemd 서비스 파일 배포
+      template:
+        src: "templates/kafka.service.j2"
+        dest: "/etc/systemd/system/kafka.service"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: systemd 데몬 리로드
+      systemd:
+        daemon_reload: yes
+
+    - name: 클러스터 ID 파일 존재 여부 확인 (마스터 노드)
+      stat:
+        path: "{{ kafka_cluster_id_path }}"
+      register: cluster_id_file
+      delegate_to: "{{ groups['kafka'][0] }}"
+      run_once: true
+
+    - name: 클러스터 ID 생성 (없을 경우)
+      shell: "uuidgen > {{ kafka_cluster_id_path }}"
+      when: not cluster_id_file.stat.exists
+      delegate_to: "{{ groups['kafka'][0] }}"
+      run_once: true
+
+    - name: 클러스터 ID 모든 노드에 복사
+      fetch:
+        src: "{{ kafka_cluster_id_path }}"
+        dest: "{{ kafka_cluster_id_file_local }}"
+        flat: yes
+      delegate_to: "{{ groups['kafka'][0] }}"
+      run_once: true
+
+    - name: 클러스터 ID 배포
+      copy:
+        src: "{{ kafka_cluster_id_file_local }}"
+        dest: "{{ kafka_cluster_id_path }}"
+
+    - name: 클러스터 ID 값 불러오기
+      command: "cat {{ kafka_cluster_id_path }}"
+      register: cluster_id_raw
+      changed_when: false
+
+    - name: CLUSTER_ID fact 등록
+      set_fact:
+        kafka_cluster_id: "{{ cluster_id_raw.stdout | trim }}"
+
+    - name: Kafka meta.properties 존재 여부 확인
+      stat:
+        path: "{{ kafka_log_dir }}/meta.properties"
+      register: kafka_meta_status
+
+    - block:
+        - name: 로그 디렉토리 삭제
+          file:
+            path: "{{ kafka_log_dir }}"
+            state: absent
+
+        - name: 로그 디렉토리 재생성
+          file:
+            path: "{{ kafka_log_dir }}"
+            state: directory
+            owner: "{{ kafka_user }}"
+            group: "{{ kafka_group }}"
+            mode: '0755'
+
+        - name: Kafka Storage 포맷
+          shell: >
+            {{ kafka_full_path }}/bin/kafka-storage.sh format
+            -t {{ kafka_cluster_id }}
+            -c {{ kafka_config_file }}
+          args:
+            creates: "{{ kafka_log_dir }}/meta.properties"
+      when: not kafka_meta_status.stat.exists
+
+    - name: Kafka 서비스 시작 및 부팅 시 자동 실행 설정
+      systemd:
+        name: kafka
+        state: started
+        enabled: yes
+      when: kafka_meta_status.stat.exists
+
+    - name: Kafka 서비스 재시작 (최초 포맷 시만)
+      systemd:
+        name: kafka
+        state: restarted
+      when: not kafka_meta_status.stat.exists
+
+    - name: Kafka 포트가 열릴 때까지 대기 (헬스체크)
+      wait_for:
+        host: "{{ private_ip }}"
+        port: "{{ kafka_broker_port }}"
+        delay: 3
+        timeout: 60

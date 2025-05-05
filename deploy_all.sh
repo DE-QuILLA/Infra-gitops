@@ -1,7 +1,7 @@
 echo "I'am here\n"
 echo $(pwd)
 
-cd ./terraform && ./bootstrap_infra.sh
+cd ./terraform && chmod +x deploy_infra.sh && ./deploy_infra.sh
 
 sleep 5
 
