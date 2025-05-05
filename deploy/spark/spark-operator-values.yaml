@@ -1,0 +1,27 @@
+sparkJobNamespace: spark  # SparkApplication이 생성될 namespace
+
+image:
+  repository: gcr.io/spark-operator/spark-operator
+  tag: v1beta2-1.3.8-3.5.1  # Spark 3.1.1에 맞는 Operator (필요 시 최신으로 수정)
+
+rbac:
+  create: true
+
+serviceAccounts:
+  spark:
+    create: true
+    name: spark-sa
+
+webhook:
+  enable: true
+
+sparkConf:
+  spark.eventLog.enabled: "true"
+  spark.eventLog.dir: "gs://deq-spark-log-bucket/spark-events/"
+  spark.hadoop.google.cloud.auth.service.account.enable: "true"
+  spark.hadoop.fs.gs.impl: com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem
+  spark.hadoop.fs.AbstractFileSystem.gs.impl: com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS
+  spark.kubernetes.authenticate.driver.serviceAccountName: spark-sa
+  spark.history.fs.logDirectory: "gs://deq-spark-log-bucket/spark-events/"
+  spark.history.fs.cleaner.enabled: "true"
+  spark.history.fs.cleaner.maxAge: "7d"

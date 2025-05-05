@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-history-server
+  namespace: spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-history-server
+  template:
+    metadata:
+      labels:
+        app: spark-history-server
+    spec:
+      serviceAccountName: spark-sa
+      containers:
+        - name: spark-history-server
+          image: gcr.io/spark-operator/spark:v3.5.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 18080
+          env:
+            - name: SPARK_HISTORY_OPTS
+              value: >
+                -Dspark.history.fs.logDirectory=gs://deq-spark-log-bucket/spark-events/
+                -Dspark.history.fs.cleaner.enabled=true
+                -Dspark.history.fs.cleaner.maxAge=7d
+                -Dspark.history.retainedApplications=50
+                -Dspark.eventLog.enabled=true
+                -Dspark.history.ui.port=18080
+          volumeMounts:
+            - name: gcp-sa-key
+              mountPath: /etc/gcp
+              readOnly: true
+      volumes:
+        - name: gcp-sa-key
+          secret:
+            secretName: spark-gcp-key  # pragma: allowlist secret
+            # GCP 서비스 계정 키를 담은 Secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-history-server
+  namespace: spark
+spec:
+  selector:
+    app: spark-history-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 18080
+  type: LoadBalancer

@@ -37,7 +37,6 @@ terraform output -json > ../ansible/kafka/generated/kafka_nodes.json
 
 echo "✅ Step 10: Kafka 인벤토리 생성 및 ansible로 카프카 배포"
 cd ../ansible/kafka
-bash generate_kafka_inventory.sh
 bash deploy_kafka.sh
 
 ## 아래는 작업 편의에 도움이 될까 해서 추가해둔 것이고, 편하게 바꾸어 작업해주세요.
