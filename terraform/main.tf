@@ -92,4 +92,13 @@ module "kafka_nodes" {
 #   dataset_id = var.bq_dataset_id
 # }
 
+# ---------------------------- GCS ----------------------------
+
+module "buckets" {
+  source                    = "./modules/buckets"
+  spark_log_bucket_name     = var.spark_log_bucket_name
+  spark_log_bucket_location = var.spark_log_bucket_location
+}
+
+
 # ---------------------------- END ----------------------------

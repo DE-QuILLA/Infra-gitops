@@ -1,6 +1,6 @@
 variable "gcp_project_id" {
   type    = string
-  default = "dequila"
+  default = "de-quilla"
 }
 
 variable "gcp_region" {

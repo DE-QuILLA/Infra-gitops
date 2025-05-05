@@ -1,18 +1,3 @@
-## 디버깅용 network 설정
-# resource "google_compute_firewall" "kafka_firewall_open_all" {
-#   name    = "kafka-allow-all-ingress"
-#   network = var.gcp_vpc_name
-#   project = var.gcp_project_id
-
-#   allow {
-#     protocol = "all"
-#   }
-
-#   source_ranges = ["0.0.0.0/0"]
-
-#   target_tags = ["kafka-node"]
-# }
-
 # 카프카 노드 private key 생성
 resource "tls_private_key" "kafka_ssh" {
   algorithm = "RSA"

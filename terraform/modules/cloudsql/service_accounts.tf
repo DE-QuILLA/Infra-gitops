@@ -7,7 +7,7 @@ resource "google_service_account" "cloudsql_sa" {
 resource "google_project_iam_member" "cloudsql_sa_binding" {
   role    = "roles/cloudsql.client"
   member  = "serviceAccount:${google_service_account.cloudsql_sa.email}"
-  project = var.project_id
+  project = var.gcp_project_id
 }
 
 resource "google_service_account_key" "cloudsql_sa_key" {
