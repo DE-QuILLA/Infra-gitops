@@ -32,7 +32,7 @@ module "cloudsql" {
   airflow_meta_db_version       = var.airflow_meta_db_version
   airflow_meta_db_tier          = var.airflow_meta_db_tier
   airflow_meta_db_user          = var.airflow_meta_db_user
-  airflow_db_password           = var.airflow_db_password
+  airflow_meta_db_password      = var.airflow_meta_db_password
   airflow_meta_db_db_name       = var.airflow_meta_db_db_name
 }
 
@@ -44,9 +44,9 @@ module "gke" {
   gcp_public_subnet_name = var.gcp_public_subnet_name
   gke_cluster_name       = var.gke_cluster_name
   gke_machine_type       = var.gke_machine_type
-  desired_size           = var.gke_desired_size
-  min_size               = var.gke_min_size
-  max_size               = var.gke_max_size
+  gke_desired_size       = var.gke_desired_size
+  gke_min_size           = var.gke_min_size
+  gke_max_size           = var.gke_max_size
 }
 
 # kubeconfig
@@ -58,6 +58,7 @@ resource "null_resource" "update_kubeconfig" {
 }
 
 # ---------------------------- GCE modules ---------------------------- #
+# 아래는 모두 GKE 내의 서비스로 통합 예정
 # module "elk_nodes" {
 #   source     = "./modules/elk_nodes"
 #   project_id = var.project_id
@@ -66,15 +67,15 @@ resource "null_resource" "update_kubeconfig" {
 #   subnet     = module.vpc.subnet_name
 # }
 
-module "kafka_nodes" {
-  source                  = "./modules/kafka_nodes"
-  kafka_node_count        = var.kafka_node_count
-  kafka_node_machine_type = var.kafka_node_machine_type
-  gcp_project_id          = var.gcp_project_id
-  gcp_vpc_name            = var.gcp_vpc_name
-  gcp_public_subnet_name  = var.gcp_public_subnet_name
-  gcp_zone                = var.gcp_zone
-}
+# module "kafka_nodes" {
+#   source                  = "./modules/kafka_nodes"
+#   kafka_node_count        = var.kafka_node_count
+#   kafka_node_machine_type = var.kafka_node_machine_type
+#   gcp_project_id          = var.gcp_project_id
+#   gcp_vpc_name            = var.gcp_vpc_name
+#   gcp_public_subnet_name  = var.gcp_public_subnet_name
+#   gcp_zone                = var.gcp_zone
+# }
 
 
 # module "ch_nodes" {
@@ -99,6 +100,5 @@ module "buckets" {
   spark_log_bucket_name     = var.spark_log_bucket_name
   spark_log_bucket_location = var.spark_log_bucket_location
 }
-
 
 # ---------------------------- END ----------------------------

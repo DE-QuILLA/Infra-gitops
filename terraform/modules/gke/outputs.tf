@@ -5,5 +5,5 @@ output "gke_cluster_name" {
 
 output "gke_node_pool_name" {
   description = "GKE cluster primary node pool's name"
-  value       = google_compute_network.vpc.name
+  value       = google_container_cluster.deq_gke_cluster.network
 }

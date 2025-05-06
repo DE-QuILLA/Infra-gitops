@@ -22,7 +22,7 @@ resource "google_container_node_pool" "deq_gke_node_pool" {
 
   node_config {
     machine_type = var.gke_machine_type
-    disk_size_gb = 30
+    disk_size_gb = 20
     oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"] # gke 내부의 pod가 프로젝트 내의 모든 활성화된 서비스에 접근 가능하도록 설정해둠.
     tags         = ["gke-node"]
   }

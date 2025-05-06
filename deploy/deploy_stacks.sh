@@ -74,5 +74,54 @@ kubectl apply -f ./spark/spark-history-server.yaml -n spark
 wait_for_pods "spark"
 
 # =========================
+# 3. Monitoring tools
+# =========================
+
+echo -e "\n🌟Monitoring 도구 배포 중 ..."
+kubectl create namespace monitoring
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+helm install monitoring prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --set grafana.adminPassword='admin' \  # pragma: allowlist secret
+  --set grafana.service.type=LoadBalancer
+
+
+# =========================
+# 3. Spark
+# =========================
+
+NAMESPACE="kafka"
+STRIMZI_VERSION="0.46.0"
+GRAFANA_NAMESPACE="monitoring"
+
+echo "📁 Kafka 네임스페이스 생성"
+kubectl create namespace $NAMESPACE || true
+
+echo "📦 Strimzi Kafka Operator 설치"
+curl -L $STRIMZI_DOWNLOAD_URL -o strimzi.tar.gz
+tar -xzf strimzi.tar.gz
+kubectl apply -f strimzi-cluster-operator-$STRIMZI_VERSION/install/cluster-operator -n $NAMESPACE
+
+echo "⏳ Operator 준비 대기 중..."
+kubectl rollout status deployment strimzi-cluster-operator -n $NAMESPACE
+
+echo "🔧 KafkaNodePool 및 KafkaCluster 생성"
+kubectl apply -f kafka-cluster.yaml -n $NAMESPACE
+kubectl apply -f kafka-nodepool.yaml -n $NAMESPACE
+
+echo "📈 Kafka Metrics용 ConfigMap 등록"
+kubectl apply -f kafka-metrics-config.yaml -n $NAMESPACE
+
+echo "📊 Grafana용 Kafka Dashboard ConfigMap 등록"
+kubectl create namespace $GRAFANA_NAMESPACE || true
+kubectl apply -f kafka-grafana-dashboard-configmap.yaml -n $GRAFANA_NAMESPACE
+
+echo "🔍 ServiceMonitor 리소스 등록 (Prometheus 연동)"
+kubectl apply -f kafka-servicemonitor.yaml -n $NAMESPACE
+
+# =========================
 echo -e "\n🎉 모든 서비스 배포 완료!"
 echo "🔍 확인: kubectl get all --all-namespaces"

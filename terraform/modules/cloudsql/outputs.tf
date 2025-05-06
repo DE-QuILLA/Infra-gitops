@@ -10,12 +10,12 @@ output "cloudsql_instance_connection_name" {
 
 output "cloudsql_airflow_user_name" {
   description = "CloudSQL airflow meta DB user name for airflow"
-  value       = google_sql_user.airflow.name
+  value       = google_sql_user.airflow_meta_db_user.name
 }
 
 output "cloudsql_airflow_db_name" {
   description = "CloudSQL airflow meta DB database name"
-  value       = google_sql_database.airflow_db.name
+  value       = google_sql_database.airflow_meta_db_db.name
 }
 
 output "cloudsql_proxy_key_file_path" {

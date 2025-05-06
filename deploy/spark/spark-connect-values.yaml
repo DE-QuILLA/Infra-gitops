@@ -4,11 +4,11 @@
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: sebastiandaberdaku/spark-glue-python
+  repository: coffeeisnan/custom_spark_image
   # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: spark-v3.5.0-python-v3.10.12
+  tag: latest
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -81,7 +81,7 @@ spark:
     spark.hadoop.google.cloud.auth.service.account.enable=true
     spark.hadoop.fs.gs.impl=com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem
     spark.hadoop.fs.AbstractFileSystem.gs.impl=com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS
-    spark.eventLog.enabled=true
+    spark.eventLog.enabled=false
     spark.eventLog.dir=gs://deq-spark-log-bucket/spark-events/
   # spark.driver -- Spark Driver configuration
   driver:

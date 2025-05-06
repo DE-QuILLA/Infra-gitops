@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-metrics
+  namespace: kafka
+  labels:
+    app: kafka
+data:
+  kafka-metrics-config.yaml: |
+    lowercaseOutputName: true
+    rules:
+      - pattern: "kafka.server<type=(.+), name=(.+)PerSec\\w*><>Count"
+        name: "kafka_server_$1_$2_total"
+        type: COUNTER
+      - pattern: "kafka.server<type=(.+), name=(.+)><>Value"
+        name: "kafka_server_$1_$2"
+        type: GAUGE
+      - pattern: "kafka.server<type=(.+), name=(.+)><>Count"
+        name: "kafka_server_$1_$2_count"
+        type: COUNTER
+      - pattern: ".*"
+        name: "kafka_$0"
+        type: GAUGE

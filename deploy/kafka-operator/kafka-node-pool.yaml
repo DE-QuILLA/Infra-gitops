@@ -1,0 +1,29 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: kafka-broker-pool
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: de-quilla-kafka-cluster
+spec:
+  replicas: 5
+  roles:
+    - broker
+    - controller
+  storage:
+    type: persistent-claim
+    size: 20Gi
+    deleteClaim: false
+    class: kafka-ssd
+  template:
+    pod:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: strimzi.io/name
+                    operator: In
+                    values:
+                      - de-quilla-kafka-cluster-kafka
+              topologyKey: "kubernetes.io/hostname"

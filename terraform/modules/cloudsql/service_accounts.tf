@@ -17,5 +17,5 @@ resource "google_service_account_key" "cloudsql_sa_key" {
 
 resource "local_file" "cloudsql_key_file" {
   content  = base64decode(google_service_account_key.cloudsql_sa_key.private_key)
-  filename = "../../../deploy/key.json"
+  filename = "${path.root}/../deploy/key.json"
 }
