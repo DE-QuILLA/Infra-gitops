@@ -18,3 +18,6 @@ terraform.tfstate.*
 
 # sapjils
 sapjils/
+
+# secrets
+*.env
