@@ -1,18 +1,20 @@
+# TODO: Hanlde secrets from yaml side
 from elasticsearch import Elasticsearch
-from dotenv import load_dotenv
 import os
 
-load_dotenv("els_pw.env")
-
-els_pw = os.getenv("ELS_PW")
+els_pw = os.environ["ELS_PW"]
 els_id = "elastic"
 
+
 es = Elasticsearch(
-    ["https://elastintest-es-http.elastic-system.svc:9200"],
+    ["https://elastintest-es-http:9200"],
     basic_auth=(els_id, els_pw),
     verify_certs=False  # use tls later
 )
 
 doc = {"message": "Hello from the other side 🎶"}
 resp = es.index(index="test-index", document=doc)
-print(resp)
+print("Push response: ", resp)
+doc_id = resp["_id"]
+retrieved = es.get(index="test-index", id=doc_id)
+print("Get response:", retrieved["_source"])

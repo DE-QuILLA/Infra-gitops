@@ -21,6 +21,9 @@ kubectl get service "$ELS_NAME"-es-http -n "$ELK_NS"
 # get cred. user: elastic
 PASSWORD=$(kubectl get secret "$ELS_NAME"-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
 
+# create a connection secret
+kubectl create secret generic elastin-creds --from-literal=ELS_PW="$PASSWORD" -n elk-ns
+
 # ELS info print (temp proxy ... if only it were that easy😥)
 kubectl port-forward service/"$ELS_NAME"-es-http 9200 -n > kubeproxy.log 2>&1 &
 curl -u "elastic:$(cat ./deploy/elk/els_pw)" -k "https://localhost:9200"
