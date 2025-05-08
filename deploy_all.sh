@@ -1,14 +1,21 @@
 #!bin/bash
 set -e
 
-echo "\n전체 인프라 배포를 시작합니다.\n"
+# 깃헙 프로젝트 최상단 경로
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "\n[terraform] 테라폼 적용, GCP 인프라 배포 시작\n"
-chmod +x ./terraform/deploy_infra.sh && ./terraform/deploy_infra.sh
-echo "\n[terraform] 테라폼 적용 완료, GCP 인프라 배포 완료\n"
+# [1] 테라폼 적용, GCP 클라우드 인프라 프로비저닝
+echo -e "\n❗ [terraform] 테라폼 적용, GCP 인프라 프로비저닝 시작\n"
+chmod +X "$ROOT_DIR/terraform/deploy_infra.sh"
+bash "$ROOT_DIR/terraform/deploy_infra.sh"
+echo -e "\n✅ [terraform] 테라폼 적용 완료, GCP 인프라 프로비저닝 완료!\n"
 
-sleep 5
+sleep 3
 
-echo "\n[deploy] 사용 스택 배포 시작\n"
-chmod +x ./deploy/deploy_stacks.sh && ./deploy/deploy_stacks.sh
-echo "\n[deploy] 사용 스택 배포 완료\n"
+# [2] GKE 내 데이터 스택 배포
+echo -e "\n❗ [deploy] 사용 데이터 스택 배포 시작\n"
+chmod +X "$ROOT_DIR/deploy/deploy_stacks.sh"
+bash "$ROOT_DIR/deploy/deploy_stacks.sh"
+echo -e "\n✅ [deploy] 사용 스택 배포 완료!\n"
+
+echo -e "\n\n✅ 전체 인프라 배포가 완료되었습니다!\n\n"

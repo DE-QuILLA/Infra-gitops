@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # 에러 발생 시 스크립트 종료
 
+# 테라폼 프로젝트 내 경로
+MAIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "✅ Step 0: Terraform init"
 terraform init
 
@@ -29,8 +32,9 @@ terraform apply -target=null_resource.update_kubeconfig -auto-approve
 # echo "✅ Step 8: Big-Qeury"
 # terraform apply -target=module.bigquery -auto-approve
 
-echo "✅ Step 9: 전체 모듈 확인 후 output 결과들을 원하는 경로로 이동"
+echo "✅ Step 5: 전체 모듈 확인 후 output 결과들을 원하는 경로로 이동"
 terraform apply -auto-approve
+
 # terraform output -json > ../ansible/kafka/generated/kafka_nodes.json
 # terraform output -json elk_node_ips | jq -r '.[]' > /tmp/elk_hosts.txt
 # terraform output -json ch_node_ips | jq -r '.[]' > /tmp/ch_hosts.txt
