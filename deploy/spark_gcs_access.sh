@@ -3,13 +3,13 @@
 set -e
 
 # === 환경 설정 ===
-PROJECT_ID="de-quilla"   # 여기에 실제 프로젝트 ID 넣으세요
+PROJECT_ID="de-quilla"
 GSA_NAME="spark-gcs-access"
 GSA_EMAIL="${GSA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 KSA_NAME="spark-sa"
 NAMESPACE="spark"
 SECRET_NAME="spark-gcp-key"  # pragma: allowlist secret
-KEY_FILE="spark_key.json"
+KEY_FILE="$(pwd)/spark_key.json"
 
 # 🔧 [0] gcloud 프로젝트 설정 확인
 gcloud config set project "$PROJECT_ID"
