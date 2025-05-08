@@ -33,7 +33,7 @@ operationTimeoutMs: 300000
 # 쿠버네티스 클러스터 도메인 (기본: cluster.local)
 kubernetesServiceDnsDomain: cluster.local
 
-featureGates: +UseKRaft,+KafkaNodePools,+UnidirectionalTopicOperator
+# featureGates: +UnidirectionalTopicOperator  # +UseKRaft, +KafkaNodePools,
 tmpDirSizeLimit: 1Mi # 임시 디렉토리 용량 제한
 
 # 추가 환경 변수 설정 가능
@@ -53,9 +53,15 @@ securityContext: {}
 
 # RBAC 관련
 rbac:
-  create: yes
-serviceAccountCreate: yes
-serviceAccount: strimzi-cluster-operator
+  namespaced: true
+  create: true
+  roles:
+    clusterOperator:
+      name: "strimzi-cluster-operator-fix"
+    entityOperatorDelegation:
+      name: "strimzi-cluster-operator-entity-operator-delegation-fix"
+    watched:
+      name: "strimzi-cluster-operator-watched-fix"
 
 # Leader election 설정
 leaderElection:

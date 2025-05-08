@@ -2,7 +2,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool
 metadata:
   name: kafka-broker-pool
-  namespace: kafka
+  namespace: kafka-1
   labels:
     strimzi.io/cluster: de-quilla-kafka-cluster
 spec:
@@ -25,5 +25,5 @@ spec:
                   - key: strimzi.io/name
                     operator: In
                     values:
-                      - de-quilla-kafka-cluster-kafka
+                      - kafka-broker-pool
               topologyKey: "kubernetes.io/hostname"

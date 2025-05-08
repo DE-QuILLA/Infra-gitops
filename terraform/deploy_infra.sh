@@ -16,8 +16,8 @@ terraform apply -target=module.gke -auto-approve
 echo "✅ Step 4: Kubeconfig 업데이트"
 terraform apply -target=null_resource.update_kubeconfig -auto-approve
 
-echo "✅ Step 5: Kafka GCE 배포 및 동적 ip 저장"
-terraform apply -target=module.kafka_nodes -auto-approve
+# echo "✅ Step 5: Kafka GCE 배포 및 동적 ip 저장"
+# terraform apply -target=module.kafka_nodes -auto-approve
 
 ## 아래는 작업 편의에 도움이 될까 해서 추가해둔 것이고, 편하게 바꾸어 작업해주세요.
 # echo "✅ Step 6: ELK GCE"

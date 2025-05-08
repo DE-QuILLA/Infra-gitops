@@ -8,10 +8,10 @@ gcp_public_subnet_cidr = "10.10.0.0/16"
 
 # GKE 관련 기본 설정
 gke_cluster_name = "dequila-gke-cluster" # pragma: allowlist secret
-gke_machine_type = "e2-standard-4"
+gke_machine_type = "e2-medium"
 gke_min_size     = 1
 gke_max_size     = 10
-gke_desired_size = 2
+gke_desired_size = 1
 
 # Cloud SQL 관련 기본 설정
 airflow_meta_db_instance_name = "airflow-sql"

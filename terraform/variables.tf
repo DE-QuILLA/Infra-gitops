@@ -89,7 +89,7 @@ variable "gke_max_size" {
 variable "gke_desired_size" {
   description = "GKE Node Pool Initial Size"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 # -------- 4. Kafka 클러스터 모듈용 variable -------- #
