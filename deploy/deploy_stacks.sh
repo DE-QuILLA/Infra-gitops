@@ -27,7 +27,13 @@ chmod +x "$SCRIPT_DIR/elk/elk_deploy.sh"
 bash "$SCRIPT_DIR/elk/elk_deploy.sh"
 echo -e "\n✅ ELK stack 배포 완료!\n"
 
-# [5] monitoring 네임 스페이스 - 프로메테우스 + 그라파나 배포, kafka exporter 배포
+# [5] redis 네임 스페이스 - redis 배포
+echo -e "\n❗ reids 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/redis/deploy_redis.sh"
+bash "$SCRIPT_DIR/redis/deploy_redis.sh"
+echo -e "\n✅ redis 배포 완료!\n"
+
+# [6] monitoring 네임 스페이스 - 프로메테우스 + 그라파나 배포, kafka exporter 배포
 echo -e "\n❗ Monitoring stacks 배포 시작!\n"
 chmod +x "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"
 bash "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"

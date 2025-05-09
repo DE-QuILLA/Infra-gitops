@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 set -e
 
 # 깃헙 프로젝트 최상단 경로
@@ -6,7 +6,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # [1] 테라폼 적용, GCP 클라우드 인프라 프로비저닝
 echo -e "\n❗ [terraform] 테라폼 적용, GCP 인프라 프로비저닝 시작\n"
-chmod +X "$ROOT_DIR/terraform/deploy_infra.sh"
+chmod +x "$ROOT_DIR/terraform/deploy_infra.sh"
 bash "$ROOT_DIR/terraform/deploy_infra.sh"
 echo -e "\n✅ [terraform] 테라폼 적용 완료, GCP 인프라 프로비저닝 완료!\n"
 
