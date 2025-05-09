@@ -1,0 +1,3 @@
+FROM apache/spark:3.5.1
+ENV SPARK_NO_DAEMONIZE=true
+ENTRYPOINT ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.history.HistoryServer"]

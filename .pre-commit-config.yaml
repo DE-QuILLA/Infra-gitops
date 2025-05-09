@@ -30,7 +30,7 @@ repos:
         name: Detect secrets
         language: python
         entry: detect-secrets-hook
-        exclude: '^deploy/airflow/values.yaml$|deploy/airflow/proxy-deployment.yaml$'
+        exclude: '^deploy/airflow/airflow-values.yaml$|deploy/airflow/proxy-deployment.yaml$'
         args: ['--baseline', '.secrets.baseline']
 
   # 로컬 훅: 커밋 메시지에 Jira 티켓 넘버 자동 추가 스크립트

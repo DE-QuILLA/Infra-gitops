@@ -1,0 +1,178 @@
+# Default values for strimzi-kafka-operator
+
+# Kafka Operator replicas (컨트롤러 파드 수)
+replicas: 1
+
+# Operator가 감시할 네임스페이스 목록
+# 빈 리스트이면 Helm 릴리즈 네임스페이스만 감시
+watchNamespaces: []
+watchAnyNamespace: false
+
+# 기본 컨테이너 이미지 정보 (필요 시 오버라이딩 가능)
+defaultImageRegistry: quay.io
+defaultImageRepository: strimzi
+defaultImageTag: 0.46.0
+
+image:
+  registry: ""
+  repository: ""
+  name: operator
+  tag: ""
+  # imagePullSecrets: [] # 프라이빗 레지스트리 사용 시 필요
+
+# 로그 관련 설정
+logVolume: co-config-volume
+logConfigMap: strimzi-cluster-operator # 로그 구성 ConfigMap 이름
+logConfiguration: "" # 직접 로그 설정 문자열 입력 시 사용
+logLevel: ${env:STRIMZI_LOG_LEVEL:-INFO} # 기본 로그 레벨
+
+# 리컨실 주기, 작업 타임아웃
+fullReconciliationIntervalMs: 120000
+operationTimeoutMs: 300000
+
+# 쿠버네티스 클러스터 도메인 (기본: cluster.local)
+kubernetesServiceDnsDomain: cluster.local
+
+# featureGates: +UnidirectionalTopicOperator  # +UseKRaft, +KafkaNodePools,
+tmpDirSizeLimit: 1Mi # 임시 디렉토리 용량 제한
+
+# 추가 환경 변수 설정 가능
+extraEnvs: []
+
+# 스케줄링 제어 관련 설정
+tolerations: []
+affinity: {}
+annotations: {}
+labels: {}
+nodeSelector: {}
+priorityClassName: ""
+
+# 보안 관련 설정
+podSecurityContext: {}
+securityContext: {}
+
+# RBAC 관련
+rbac:
+  namespaced: true
+  create: true
+  roles:
+    clusterOperator:
+      name: "strimzi-cluster-operator-fix"
+    entityOperatorDelegation:
+      name: "strimzi-cluster-operator-entity-operator-delegation-fix"
+    watched:
+      name: "strimzi-cluster-operator-watched-fix"
+
+# Leader election 설정
+leaderElection:
+  enable: true
+
+# PDB 설정 (기본: minAvailable 1)
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  maxUnavailable: 
+
+# Grafana 대시보드 관련 설정
+dashboards:
+  enabled: false
+  namespace: ~
+  label: grafana_dashboard
+  labelValue: "1"
+  annotations: {}
+  extraLabels: {}
+
+# Kafka 관련 컴포넌트별 이미지 설정
+kafka:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaConnect:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+topicOperator:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+userOperator:
+  image:
+    registry:
+    repository:
+    name: operator
+    tag: ""
+kafkaInit:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+kafkaBridge:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka-bridge
+    tag: 0.32.0
+kafkaExporter:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaMirrorMaker2:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+cruiseControl:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kanikoExecutor:
+  image:
+    registry: ""
+    repository: ""
+    name: kaniko-executor
+    tag: ""
+mavenBuilder:
+  image:
+    registry: ""
+    repository: ""
+    name: maven-builder
+    tag: ""
+
+# Operator Pod 리소스 제한
+resources:
+  limits:
+    memory: 384Mi
+    cpu: 1000m
+  requests:
+    memory: 384Mi
+    cpu: 200m
+
+# Health check 설정
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 30
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 30
+
+# 클러스터 전역 리소스 생성 여부 (ClusterRole 등)
+createGlobalResources: true
+createAggregateRoles: false
+labelsExclusionPattern: ""
+generateNetworkPolicy: true
+generatePodDisruptionBudget: true
+
+# Kafka Connect 빌드 타임아웃
+connectBuildTimeoutMs: 300000
