@@ -1,0 +1,24 @@
+# NOT FINAL
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elastintest
+  namespace: elk-ns
+spec:
+  version: 8.16.1
+  nodeSets:
+  - name: els-node
+    count: 1
+    config:
+      node.roles: ["master", "data", "ingest"]
+      # Don't use this in prod: OOM guaranteed
+      node.store.allow_mmap: false
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: standard
