@@ -21,7 +21,13 @@ chmod +x "$SCRIPT_DIR/kafka-operator/deploy_kafka.sh"
 bash "$SCRIPT_DIR/kafka-operator/deploy_kafka.sh"
 echo -e "\n✅ Kafka 배포 완료!\n"
 
-# [4] monitoring 네임 스페이스 - 프로메테우스 + 그라파나 배포, kafka exporter 배포
+# [4] elk-ns 네임 스페이스 - ELK 스택 배포
+echo -e "\n❗ ELK stack 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/elk/elk_deploy.sh"
+bash "$SCRIPT_DIR/elk/elk_deploy.sh"
+echo -e "\n✅ ELK stack 배포 완료!\n"
+
+# [5] monitoring 네임 스페이스 - 프로메테우스 + 그라파나 배포, kafka exporter 배포
 echo -e "\n❗ Monitoring stacks 배포 시작!\n"
 chmod +x "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"
 bash "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"
