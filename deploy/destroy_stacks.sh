@@ -4,7 +4,7 @@ set -e
 # [0] 기본 설정
 PROJECT_ID="de-quilla"
 ZONE="asia-northeast3-a"
-NAMESPACES=("airflow" "spark" "kafka-1" "elk" "monitoring")
+NAMESPACES=("airflow" "spark" "kafka-1" "elk" "monitoring" "redis" "clickhouse")
 
 for ns in "${NAMESPACES[@]}"; do
   echo -e "\n❗ [$ns] 네임스페이스 리소스 전체 삭제 시작"
