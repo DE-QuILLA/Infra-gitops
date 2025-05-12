@@ -30,4 +30,15 @@ helm upgrade --install kafka-ui kafka-ui/kafka-ui \
     -f kafka-ui.yaml
 echo "✅ Kafka UI 배포 완료!"
 
+echo "🖥️ Kafka Producer 배포"
+PRODUCER_FOLDER="./kafka-producer"
+
+for file in "$PRODUCER_FOLDER"/*.yaml "$PRODUCER_FOLDER"/*.yml; do
+    if [ -f "$file" ]; then
+        echo "$file 배포중!"
+        kubectl apply -f "$file"
+    fi
+done
+echo "✅ Kafka Producer 배포 완료!"
+
 echo "🎉 kafka-1 네임스페이스 내 모든 리소스 배포 완료!"
