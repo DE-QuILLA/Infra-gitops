@@ -1,8 +1,9 @@
-apiVersion: logstash.k8s.elastic.co/v1alpha1
-kind: Logstash
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
 metadata:
-    name: monitored-sample
+  name: monitored-sample
 spec:
+  type: filebeat
   version: 8.16.1
   monitoring:
     metrics:

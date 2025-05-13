@@ -1,0 +1,3 @@
+- [ ] Treat els user as a secret
+- [ ] Specs reasoning
+- [ ] Exporter & monitoring settings
