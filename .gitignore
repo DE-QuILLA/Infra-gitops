@@ -18,3 +18,11 @@ terraform.tfstate.*
 
 # sapjils
 sapjils/
+
+# Secrets
+*.pem
+*.key
+*.pub
+*.json
+ansible/kafka/generated/
+/tmp/kafka_hosts.txt

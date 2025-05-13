@@ -1,0 +1,8 @@
+env:
+  - name: KAFKA_CLUSTERS_0_NAME
+    value: "de-quilla"
+  - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+    value: "de-quilla-kafka-cluster-kafka-bootstrap.kafka-1.svc.cluster.local:9092"
+
+service:
+  type: LoadBalancer

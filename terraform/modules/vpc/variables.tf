@@ -3,7 +3,12 @@ variable "gcp_vpc_name" {
   default = "deq-vpc"
 }
 
-variable "subnet_public_cidr" {
+variable "gcp_public_subnet_name" {
+  type    = string
+  default = "deq-vpc-public"
+}
+
+variable "gcp_public_subnet_cidr" {
   type    = string
   default = "10.10.0.0/16"
 }

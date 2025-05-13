@@ -6,9 +6,9 @@ resource "google_compute_network" "vpc" {
 }
 
 # 서브넷 구조: 우선 퍼블릭한 서브넷 하나만 구성함.
-resource "google_compute_subnetwork" "public" {
-  name                     = "${var.gcp_vpc_name}-public"
-  ip_cidr_range            = var.subnet_public_cidr
+resource "google_compute_subnetwork" "public_subnet" {
+  name                     = var.gcp_public_subnet_name
+  ip_cidr_range            = var.gcp_public_subnet_cidr
   region                   = var.gcp_region
   network                  = google_compute_network.vpc.id
   private_ip_google_access = true

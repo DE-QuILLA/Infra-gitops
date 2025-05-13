@@ -1,0 +1,23 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: de-quilla-kafka-cluster
+  namespace: kafka-1
+  annotations:
+    strimzi.io/kraft: "enabled"
+    strimzi.io/node-pools: "enabled"
+spec:
+  kafka:
+    version: 4.0.0
+    # replicas나 storage 제거 —> NodePool에서 정의함
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

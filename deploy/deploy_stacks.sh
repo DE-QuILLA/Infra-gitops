@@ -1,87 +1,48 @@
 #!/bin/bash
 set -e
-trap 'echo "⚠️ 배포 중 에러 발생! 스크립트 중단됨."; exit 1' ERR
 
-# =========================
-# CONFIG
-# =========================
-KEY_JSON_PATH="./key.json"
-DB_CONN_STR="postgresql+psycopg2://airflow:postgres@127.0.0.1:5432/airflowdb"  # pragma: allowlist secret
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-wait_for_pods() {
-  local namespace="$1"
-  echo "⏳ $namespace 네임스페이스의 모든 Pod가 Running 상태가 될 때까지 대기 중..."
-  while [[ $(kubectl get pods -n "$namespace" --no-headers | grep -v 'Running\|Completed' | wc -l) -gt 0 ]]; do
-    sleep 5
-    kubectl get pods -n "$namespace"
-  done
-  echo "✅ $namespace 네임스페이스의 모든 Pod가 준비 완료!"
-}
+# [1] airflow 네임스페이스 - CloudSQL Proxy + Airflow 배포
+echo -e "\n❗ Airflow 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/airflow/deploy_airflow.sh"
+bash "$SCRIPT_DIR/airflow/deploy_airflow.sh"
+echo -e "\n✅ Airflow 배포 완료!\n"
 
-create_namespace_and_secret() {
-  local namespace="$1"
-  echo "📁 [$namespace] 네임스페이스 및 시크릿 구성 중..."
-  kubectl create ns "$namespace" --dry-run=client -o yaml | kubectl apply -f -
-  kubectl delete secret cloudsql-instance-credentials -n "$namespace" --ignore-not-found
-  kubectl create secret generic cloudsql-instance-credentials \
-    --from-file=key.json="$KEY_JSON_PATH" \
-    -n "$namespace"
-}
+# [2] spark 네임스페이스 - spark-connect, spark-history-server, spark-operator 배포
+echo -e "\n❗ Spark 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/spark/deploy_spark.sh"
+bash "$SCRIPT_DIR/spark/deploy_spark.sh"
+echo -e "\n✅ Spark 배포 완료!\n"
 
-# =========================
-# 1. Airflow
-# =========================
-echo -e "\n🚀 [1/3] Airflow 배포 시작..."
-create_namespace_and_secret "airflow"
+# [3] kafka-1 네임스페이스 - strimizi kafka operator + kafka cluster, kafka-ui 배포
+echo -e "\n❗ Kafka 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/kafka-operator/deploy_kafka.sh"
+bash "$SCRIPT_DIR/kafka-operator/deploy_kafka.sh"
+echo -e "\n✅ Kafka 배포 완료!\n"
 
-# Cloud SQL Proxy 배포
-kubectl apply -f ./airflow/proxy-deployment.yaml -n airflow
-wait_for_pods "airflow"
+# [4] elk-ns 네임 스페이스 - ELK 스택 배포
+echo -e "\n❗ ELK stack 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/elk/elk_deploy.sh"
+bash "$SCRIPT_DIR/elk/elk_deploy.sh"
+echo -e "\n✅ ELK stack 배포 완료!\n"
 
-# Helm 설치
-helm repo add apache-airflow https://airflow.apache.org || true
-helm repo update
-helm upgrade --install airflow apache-airflow/airflow \
-  -f "./airflow/values.yaml" \
-  -n airflow
+# [5] clickhouse 네임 스페이스 - ELK 스택 배포
+echo -e "\n❗ Clickhouse 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/clickhouse/clickhouse_deploy.sh"
+bash "$SCRIPT_DIR/clickhouse/clickhouse_deploy.sh"
+echo -e "\n✅ Clickhouse 배포 완료!\n"
 
-# =========================
-# 2. Spark Connect
-# =========================
-echo -e "\n🚀 [2/3] Spark Connect 배포 시작..."
-create_namespace_and_secret "spark"
+# [6] redis 네임 스페이스 - redis 배포
+echo -e "\n❗ reids 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/redis/deploy_redis.sh"
+bash "$SCRIPT_DIR/redis/deploy_redis.sh"
+echo -e "\n✅ redis 배포 완료!\n"
 
-helm repo add sdaberdaku https://sdaberdaku.github.io/charts || true
-helm repo update
+# [7] monitoring 네임 스페이스 - 프로메테우스 + 그라파나 배포, kafka exporter 배포
+echo -e "\n❗ Monitoring stacks 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"
+bash "$SCRIPT_DIR/monitoring/deploy_monitoring.sh"
+echo -e "\n✅ Monitoring stacks 배포 완료!\n"
 
-helm upgrade --install spark-connect sdaberdaku/spark-connect \
-  -f "./spark/spark-connect-values.yaml"
-  -n spark
-
-# Spark Connect 서버 배포
-wait_for_pods "spark"
-
-# =========================
-# 3. ELK Stack
-# =========================
-echo -e "\n🚀 [3/3] ELK Stack 배포 시작..."
-kubectl create ns elk --dry-run=client -o yaml | kubectl apply -f -
-
-helm repo add elastic https://helm.elastic.co || true
-helm repo update
-
-# Elasticsearch
-helm upgrade --install elasticsearch elastic/elasticsearch \
-  -f "./elk/elastic-values.yaml" \
-  -n elk
-
-# Kibana
-helm upgrade --install kibana elastic/kibana \
-  -f "./elk/kibana-values.yaml" \
-  -n elk
-
-wait_for_pods "elk"
-
-# =========================
-echo -e "\n🎉 모든 서비스 배포 완료!"
-echo "🔍 확인: kubectl get all --all-namespaces"
+echo -e "\n🎉 모든 컴포넌트 최종 배포 완료!\n"
