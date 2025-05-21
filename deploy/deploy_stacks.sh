@@ -64,23 +64,33 @@ wait_for_pods "spark"
 # =========================
 # 3. ELK Stack
 # =========================
-echo -e "\n🚀 [3/3] ELK Stack 배포 시작..."
-kubectl create ns elk --dry-run=client -o yaml | kubectl apply -f -
+echo -e "\n🚀 [3/3] ELK 모니터링 Stack 배포 시작..."
 
-helm repo add elastic https://helm.elastic.co || true
-helm repo update
+# ECK 오퍼레이터
+echo "Deploying ECK..."
+source ./elk/elk_deploy.sh
 
-# Elasticsearch
-helm upgrade --install elasticsearch elastic/elasticsearch \
-  -f "./elk/elastic-values.yaml" \
-  -n elk
+# ELK 로그 모니터링 스택
+echo "Deploying ELK Monitoring Stack..."
 
-# Kibana
-helm upgrade --install kibana elastic/kibana \
-  -f "./elk/kibana-values.yaml" \
-  -n elk
+# ELK ETL 스택
+echo 
+# kubectl create ns elk --dry-run=client -o yaml | kubectl apply -f -
 
-wait_for_pods "elk"
+# helm repo add elastic https://helm.elastic.co || true
+# helm repo update
+
+# # Elasticsearch
+# helm upgrade --install elasticsearch elastic/elasticsearch \
+#   -f "./elk/elastic-values.yaml" \
+#   -n elk
+
+# # Kibana
+# helm upgrade --install kibana elastic/kibana \
+#   -f "./elk/kibana-values.yaml" \
+#   -n elk
+
+wait_for_pods "elk-ns"
 
 # =========================
 echo -e "\n🎉 모든 서비스 배포 완료!"
