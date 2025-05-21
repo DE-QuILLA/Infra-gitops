@@ -16,8 +16,9 @@ terraform {
 }
 
 provider "google" {
-  project = var.project_id
-  region  = var.region
+  credentials = file("key.json")
+  project     = var.project_id
+  region      = var.region
 }
 
 data "google_client_config" "current" {}
@@ -75,7 +76,7 @@ resource "google_service_account_key" "cloudsql_sa_key" {
 
 resource "local_file" "cloudsql_key_file" {
   content  = base64decode(google_service_account_key.cloudsql_sa_key.private_key)
-  filename = "../deploy/key.json"
+  filename = "key.json"
 }
 
 # ---------------------- GKE ----------------------
@@ -153,9 +154,9 @@ output "gke_cluster_name" {
 }
 
 output "gke_cluster_region" {
-  value = var.region
+  value = google_container_cluster.primary.location
 }
 
 output "project_id" {
-  value = var.project_id
+  value = google_project_iam_member.cloudsql_sa_binding.project
 }
