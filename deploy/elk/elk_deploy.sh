@@ -1,11 +1,13 @@
 #!/bin/bash
 
-ELS_YAMUL="bhandhasticsearch.yaml"
-MONITOR_YML="fantasticsearch-monitor.yaml"
-ELS_NAME="elastin"
+ELS_YAMUL="fantasticsearch.yaml"
 KIB_YAMUL="kinkybanana.yaml"
 LOG_YAMUL="mustasche.yaml"
+MONITOR_ELS_YML="fantasticsearch-monitor.yaml"
+MONITOR_KIB_YAMUL="kinkybanana-monitor.yaml"
 UPGRADE_MEM="mem-map-tweak.yaml"
+ELS_NAME="elastin"
+MONITOR_ELS_NAME="elastin-monitor"
 ELK_NS="elk-ns"
 
 helm repo add elastic https://helm.elastic.co
@@ -27,7 +29,7 @@ kubectl create secret generic elk-monitor-user-secret \
 
 ## ELS CRDs
 kubectl apply -f "$ELS_YAMUL"
-kubectl apply -f "$MONITOR_YML"
+kubectl apply -f "$MONITOR_ELS_YML"
 
 # DEBUG: Get http service
 # kubectl get service "$ELS_NAME"-es-http -n "$ELK_NS"
