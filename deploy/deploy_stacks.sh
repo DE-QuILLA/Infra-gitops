@@ -66,15 +66,15 @@ wait_for_pods "spark"
 # =========================
 echo -e "\n🚀 [3/3] ELK 모니터링 Stack 배포 시작..."
 
-# ECK 오퍼레이터
+# ECK 오퍼레이터 + ETL 스택
 echo "Deploying ECK..."
 source ./elk/elk_deploy.sh
 
 # ELK 로그 모니터링 스택
 echo "Deploying ELK Monitoring Stack..."
+# SCRIPT NOT COMPLETE
+# source ./elk-monitor/elk_monitor_deploy.sh
 
-# ELK ETL 스택
-echo 
 # kubectl create ns elk --dry-run=client -o yaml | kubectl apply -f -
 
 # helm repo add elastic https://helm.elastic.co || true
