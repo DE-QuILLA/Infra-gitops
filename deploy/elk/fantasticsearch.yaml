@@ -1,0 +1,159 @@
+# NOT FINAL
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elastin
+  namespace: elk-ns
+spec:
+  version: 8.16.1
+
+  nodeSets:
+  - name: master
+    # for quorum
+    count: 3
+    config:
+      node.roles: ["master"]
+      # Don't use this in prod: OOM guaranteed
+      # node.store.allow_mmap: false
+      cluster.routing.allocation.awareness.attributes: topology.kubernetes.io/zone
+      cluster.name: all-purpose-elastin
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-master
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 30Gi
+  
+  - name: data-warm
+    count: 3
+    config:
+      node.roles: ["data_warm", "ingest", "remote_cluster_client"]
+      # node.store.allow_mmap: false
+      cluster.routing.allocation.awareness.attributes: topology.kubernetes.io/zone
+      # Is it deprecate or not?
+      # xpack.monitoring.collection.enabled: true
+      # xpack.monitoring.exporters.my_local:
+      #   type: local
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-warm
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 8Gi
+                cpu: 2
+              limits:
+                memory: 16Gi
+                cpu: 4
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 500Gi
+
+  - name: data-cold
+    count: 2
+    config:
+      node.roles: ["data_cold"]
+      # node.store.allow_mmap: false
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-cold
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 4Gi
+                cpu: 1
+              limits:
+                memory: 8Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 1Ti
+
+  - name: data-cold
+    count: 2
+    config:
+      node.roles: ["data_cold"]
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-cold
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 4Gi
+                cpu: 1
+              limits:
+                memory: 8Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 1Ti
+
+  # Dunno how this works
+  # nodeSelector:
+  #   cloud.google.com/gke-nodepool: els-pool
+
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: false
+
+  transport:
+    tls:
+      verificationMode: certificate
+
+  secureSettings:
+    - secretName: elk-monitor-user-secret #pragma: allowlist secret
+
+  monitoring:
+    metrics:
+      elasticsearchRefs:
+      - name: elastin-monitor
+        namespace: elk-ns
+    logs:
+      elasticsearchRefs:
+      - name: elastin-monitor
+        namespace: elk-ns

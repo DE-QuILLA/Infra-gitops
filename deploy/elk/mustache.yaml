@@ -1,0 +1,17 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+    name: monitored-sample
+spec:
+  version: 8.16.1
+  monitoring:
+    metrics:
+      elasticsearchRefs:
+      - name: monitoring
+        namespace: observability
+
+
+    logs:
+      elasticsearchRefs:
+      - name: monitoring
+        namespace: observability

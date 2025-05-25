@@ -26,3 +26,6 @@ sapjils/
 *.json
 ansible/kafka/generated/
 /tmp/kafka_hosts.txt
+
+# secrets
+*.env

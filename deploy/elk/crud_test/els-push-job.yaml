@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: els-pusher
+  namespace: elk-ns
+spec:
+  template:
+    spec:
+      containers:
+        - name: els-pusher
+          # DO NOT USE THE LATEST TAG AND ALWAYS PULL IN PROD
+          image: xuanminator/es-crud-test:0.5
+          imagePullPolicy: Always
+          env:
+            - name: ELS_PW
+              valueFrom:
+                secretKeyRef:
+                  name: elastin-creds
+                  key: ELS_PW
+      restartPolicy: Never
