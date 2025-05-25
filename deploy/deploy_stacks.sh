@@ -27,6 +27,11 @@ chmod +x "$SCRIPT_DIR/elk/elk_deploy.sh"
 bash "$SCRIPT_DIR/elk/elk_deploy.sh"
 echo -e "\n✅ ELK stack 배포 완료!\n"
 
+echo -e "\n❗ ELK 모니터링 배포 시작!\n"
+chmod +x "$SCRIPT_DIR/elk-monitor/elk_monitor_deploy.sh"
+bash "$SCRIPT_DIR/elk/elk_monitor_deploy.sh"
+echo -e "\n✅ ELK stack 배포 완료!\n"
+
 # [5] clickhouse 네임 스페이스 - ELK 스택 배포
 echo -e "\n❗ Clickhouse 배포 시작!\n"
 chmod +x "$SCRIPT_DIR/clickhouse/clickhouse_deploy.sh"
