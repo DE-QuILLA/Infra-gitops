@@ -1,0 +1,50 @@
+# Altinity Helm Chart 기반 ClickHouse 단일 노드 배포 설정
+# 목적: GKE 테스트용, 코인 실시간 데이터 저장/압축률 실험
+
+clickhouse:
+  configurationFiles:
+    config.d:
+      # Zookeeper 설정 제거 (단일 노드 운영 시 필요 x)
+      zookeeper.xml: ""
+
+  # 사용자 인증 정보
+  users:
+    default:
+      password_secret: test-clickhouse-password  # pragma: allowlist secret
+      networks:
+        - "::/0"         # IPv6 전체 허용 (내부 테스트용)
+        - "0.0.0.0/0"    # IPv4 전체 허용 (운영 환경에서는 제한 예정)
+
+  # 리소스 제한 및 요청 (테스트용)
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+
+  # 단일 노드 (테스트용)
+  replicas: 1
+
+  # Docker 이미지
+  image:
+    repository: altinity/clickhouse-server
+    tag: "24.8.14.10459.altinitystable"
+
+# Zookeeper 역할 (비활성화)
+keeper:
+  enabled: false
+  tolerations: []
+
+# 스토리지 설정
+storage:
+  volumeClaimTemplates:
+    - name: data
+      accessMode: ReadWriteOnce
+      storageClassName: standard
+      size: 50Gi
+
+# 서비스 설정
+service:
+  type: ClusterIP  # 외부 노출 없음. 내부 GKE 통신용
