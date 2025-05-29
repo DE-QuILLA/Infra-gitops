@@ -15,16 +15,16 @@ clickhouse:
         - "::/0"         # IPv6 전체 허용 (내부 테스트용)
         - "0.0.0.0/0"    # IPv4 전체 허용 (운영 환경에서는 제한 예정)
 
-  # 리소스 제한 및 요청 (테스트용)
+  # 리소스 제한 및 요청
   resources:
     requests:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "2"
+      memory: "4Gi"
     limits:
-      cpu: "1"
-      memory: "2Gi"
+      cpu: "4"
+      memory: "8Gi"
 
-  # 단일 노드 (테스트용)
+  # 단일 노드 사용 (GCP Free Tier 할당 고려)
   replicas: 1
 
   # Docker 이미지
@@ -42,8 +42,8 @@ storage:
   volumeClaimTemplates:
     - name: data
       accessMode: ReadWriteOnce
-      storageClassName: standard
-      size: 50Gi
+      storageClassName: balanced
+      size: 100Gi
 
 # 서비스 설정
 service:
