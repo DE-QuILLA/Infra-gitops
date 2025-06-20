@@ -1,0 +1,31 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: elastin-kibana
+  namespace: elk-ns
+spec:
+  version: 8.16.1
+  # single Pod to save RAM/CPU
+  count: 1             
+  elasticsearchRef:
+    name: elastin
+  podTemplate:
+    metadata:
+      labels:
+        app: elastin-kibana
+    spec:
+      containers:
+      - name: kibana
+        resources:
+          # Super-default
+          requests:
+            memory: 1Gi
+            cpu: 250m
+          limits:
+            memory: 2Gi
+            cpu: 500m
+  # Following the self-signing convention in the Elasticsearch CRD.
+  # http:                
+  #   tls:
+  #     selfSignedCertificate:
+  #       disabled: false

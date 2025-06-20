@@ -1,4 +1,3 @@
-# NOT FINAL
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -9,18 +8,51 @@ spec:
 
   nodeSets:
   - name: master
-    # for quorum
     count: 3
     config:
-      node.roles: ["master"]
-      # Don't use this in prod: OOM guaranteed
-      # node.store.allow_mmap: false
-      cluster.routing.allocation.awareness.attributes: topology.kubernetes.io/zone
-      cluster.name: all-purpose-elastin
+      node.roles: ["master"] # remote ... is for cross-cloud
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a # apparently, at least one master in another zone is advised. but whatevs
+      cluster.name: elastin
     podTemplate:
       metadata:
         labels:
           app: elastin-master
+          topology.kubernetes.io/zone: asia-northeast3-a
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi # req of 4 and lim of 8 is advised
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+  - name: data-hot
+    # You either have to pass 'index.number_of_replicas: 0' to the ELS Settings API
+    # OR, increase the count to more than 2. SAME GOES FOR DATA-WARM
+    # this mechanism has been included in the elk_deploy.sh script
+    count: 1
+    config:
+      node.roles: ["data_hot", "ingest"]
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-hot
+          topology.kubernetes.io/zone: asia-northeast3-a
       spec:
         containers:
           - name: elasticsearch
@@ -35,36 +67,34 @@ spec:
       - metadata:
           name: elasticsearch-data
         spec:
-          accessModes: ["ReadWriteOnce"]
+          accessModes: [ "ReadWriteOnce" ]
           storageClassName: standard
           resources:
             requests:
-              storage: 30Gi
-  
+              storage: 10Gi
+
   - name: data-warm
-    count: 3
+    # the aforementioned replica issue
+    count: 1
     config:
-      node.roles: ["data_warm", "ingest", "remote_cluster_client"]
-      # node.store.allow_mmap: false
-      cluster.routing.allocation.awareness.attributes: topology.kubernetes.io/zone
-      # Is it deprecate or not?
-      # xpack.monitoring.collection.enabled: true
-      # xpack.monitoring.exporters.my_local:
-      #   type: local
+      node.roles: ["data_warm", "ingest"]
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a
     podTemplate:
       metadata:
         labels:
           app: elastin-warm
+          topology.kubernetes.io/zone: asia-northeast3-a
       spec:
         containers:
           - name: elasticsearch
             resources:
               requests:
-                memory: 8Gi
-                cpu: 2
+                memory: 2Gi
+                cpu: 1
               limits:
-                memory: 16Gi
-                cpu: 4
+                memory: 4Gi
+                cpu: 2
     volumeClaimTemplates:
       - metadata:
           name: elasticsearch-data
@@ -73,26 +103,28 @@ spec:
           storageClassName: standard
           resources:
             requests:
-              storage: 500Gi
+              storage: 10Gi
 
   - name: data-cold
     count: 2
     config:
       node.roles: ["data_cold"]
-      # node.store.allow_mmap: false
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-c
     podTemplate:
       metadata:
         labels:
           app: elastin-cold
+          topology.kubernetes.io/zone: asia-northeast3-c
       spec:
         containers:
           - name: elasticsearch
             resources:
               requests:
-                memory: 4Gi
+                memory: 2Gi
                 cpu: 1
               limits:
-                memory: 8Gi
+                memory: 4Gi
                 cpu: 2
     volumeClaimTemplates:
       - metadata:
@@ -102,48 +134,7 @@ spec:
           storageClassName: standard
           resources:
             requests:
-              storage: 1Ti
-
-  - name: data-cold
-    count: 2
-    config:
-      node.roles: ["data_cold"]
-    podTemplate:
-      metadata:
-        labels:
-          app: elastin-cold
-      spec:
-        containers:
-          - name: elasticsearch
-            resources:
-              requests:
-                memory: 4Gi
-                cpu: 1
-              limits:
-                memory: 8Gi
-                cpu: 2
-    volumeClaimTemplates:
-      - metadata:
-          name: elasticsearch-data
-        spec:
-          accessModes: [ "ReadWriteOnce" ]
-          storageClassName: standard
-          resources:
-            requests:
-              storage: 1Ti
-
-  # Dunno how this works
-  # nodeSelector:
-  #   cloud.google.com/gke-nodepool: els-pool
-
-  http:
-    tls:
-      selfSignedCertificate:
-        disabled: false
-
-  transport:
-    tls:
-      verificationMode: certificate
+              storage: 10Gi
 
   secureSettings:
     - secretName: elk-monitor-user-secret #pragma: allowlist secret
@@ -151,9 +142,9 @@ spec:
   monitoring:
     metrics:
       elasticsearchRefs:
-      - name: elastin-monitor
+      - name: elastin
         namespace: elk-ns
     logs:
       elasticsearchRefs:
-      - name: elastin-monitor
+      - name: elastin
         namespace: elk-ns
