@@ -21,7 +21,7 @@ spec:
           image: gcr.io/cloudsql-docker/gce-proxy:1.33.2
           command:
             - "/cloud_sql_proxy"
-            - "-instances=my-code-vocab:asia-northeast3:airflow-sql=tcp:0.0.0.0:5432"
+            - "-instances=de-quilla:asia-northeast3:airflow-sql=tcp:0.0.0.0:5432"
             - "-credential_file=/secrets/cloudsql/key.json"
           volumeMounts:
             - name: cloudsql-instance-credentials

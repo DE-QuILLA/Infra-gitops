@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# echo "🗂️ Step 0: deploy 디렉토리 생성"
+# mkdir -p ../deploy
+
 echo "🚀 Step 1: Terraform Init"
 terraform init
 
@@ -19,7 +22,10 @@ terraform apply -auto-approve \
   -target=google_container_cluster.primary \
   -target=google_container_node_pool.primary_nodes
 
-echo "🔧 Step 4: kubeconfig 등록"
+echo "🔧 Step 4: 나머지 terraform 실행"
+terraform apply -auto-approve
+
+echo "🔧 Step 5: kubeconfig 등록"
 CLUSTER_NAME=$(terraform output -raw gke_cluster_name)
 REGION=$(terraform output -raw gke_cluster_region)
 PROJECT_ID=$(terraform output -raw project_id)
@@ -27,7 +33,6 @@ PROJECT_ID=$(terraform output -raw project_id)
 gcloud container clusters get-credentials "$CLUSTER_NAME" \
   --region "$REGION" \
   --project "$PROJECT_ID"
-
 
 echo "⏳ Waiting 5s for context sync..."
 sleep 5

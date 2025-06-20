@@ -1,10 +1,15 @@
-variable "gcp_project_id" {
-  description = "GCP Project ID"
+variable "gcp_region" {
+  description = "GCP Region"
   type        = string
 }
 
-variable "gcp_region" {
-  description = "GCP Region"
+variable "vpc_name" {
+  description = "GCP VPC Name"
+  type        = string
+}
+
+variable "subnet_name" {
+  description = "GCP Subnet Name"
   type        = string
 }
 
@@ -35,10 +40,4 @@ variable "gke_desired_size" {
   description = "GKE Node Pool Initial Size"
   type        = number
   default     = 2
-}
-
-variable "airflow_db_password" {
-  description = "Cloud SQL User Password"
-  type        = string
-  sensitive   = true
 }

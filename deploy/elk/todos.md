@@ -1,0 +1,4 @@
+- [x] Treat els user as a secret
+- [x] Specs reasoning
+- [x] Exporter & monitoring settings
+- [ ] kibana dashboard injection

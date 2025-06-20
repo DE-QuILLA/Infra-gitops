@@ -1,0 +1,150 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elastin
+  namespace: elk-ns
+spec:
+  version: 8.16.1
+
+  nodeSets:
+  - name: master
+    count: 3
+    config:
+      node.roles: ["master"] # remote ... is for cross-cloud
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a # apparently, at least one master in another zone is advised. but whatevs
+      cluster.name: elastin
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-master
+          topology.kubernetes.io/zone: asia-northeast3-a
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi # req of 4 and lim of 8 is advised
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+  - name: data-hot
+    # You either have to pass 'index.number_of_replicas: 0' to the ELS Settings API
+    # OR, increase the count to more than 2. SAME GOES FOR DATA-WARM
+    # this mechanism has been included in the elk_deploy.sh script
+    count: 1
+    config:
+      node.roles: ["data_hot", "ingest"]
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-hot
+          topology.kubernetes.io/zone: asia-northeast3-a
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+  - name: data-warm
+    # the aforementioned replica issue
+    count: 1
+    config:
+      node.roles: ["data_warm", "ingest"]
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-a
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-warm
+          topology.kubernetes.io/zone: asia-northeast3-a
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+  - name: data-cold
+    count: 2
+    config:
+      node.roles: ["data_cold"]
+      cluster.routing.allocation.awareness.attributes: zone
+      node.attr.zone: asia-northeast3-c
+    podTemplate:
+      metadata:
+        labels:
+          app: elastin-cold
+          topology.kubernetes.io/zone: asia-northeast3-c
+      spec:
+        containers:
+          - name: elasticsearch
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 2
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+  secureSettings:
+    - secretName: elk-monitor-user-secret #pragma: allowlist secret
+
+  monitoring:
+    metrics:
+      elasticsearchRefs:
+      - name: elastin
+        namespace: elk-ns
+    logs:
+      elasticsearchRefs:
+      - name: elastin
+        namespace: elk-ns
